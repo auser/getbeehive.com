@@ -3,6 +3,13 @@ ENV['RACK_ENV'] = "production"
 
 puts "Starting application!!!!"
 $:.unshift(File.dirname(__FILE__))
-require 'app'
+require "rubygems"
+require "sinatra"
 
-run Sinatra::Application
+get '/' do
+  "First app suucess!"
+end
+
+get '/hi' do
+  "HEllo!"
+end
