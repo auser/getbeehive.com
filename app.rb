@@ -2,5 +2,9 @@ require "rubygems"
 require "sinatra"
 
 get '/' do
-  "First aPp suucess!"
+  "First app suucess!"
+end
+
+get '/hi' do
+  "HEllo!"
 end
