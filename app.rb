@@ -2,7 +2,6 @@ require "rubygems"
 require "sinatra"
 
 get '/' do
-  echo "!!!!"
   "First app suucess!"
 end
 
