@@ -11,6 +11,6 @@ end
 
 get '/info' do
   
-  "#{pwd}"
+  "#{`pwd`}"
   
 end
