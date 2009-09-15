@@ -8,3 +8,9 @@ end
 get '/hi' do
   "HEllo!"
 end
+
+get '/info' do
+  
+  "#{pwd}"
+  
+end
