@@ -1,6 +1,6 @@
 require 'rubygems'
 require 'sinatra'
-require "app.rb"
+require "#{File.dirname(__FILE__)}/app"
 
 root_dir = Pathname(__FILE__).dirname
 
