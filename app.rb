@@ -14,7 +14,8 @@ get '/info' do
   pwd = `pwd`
   dir_listing = `cd / && ls`
   user = `whoami`
+  env = `env`
   
-  "#{pwd}<br />#{dir_listing}<br />#{user}"
+  "#{pwd}<br />#{dir_listing}<br />#{user}<br /><br />#{env}"
   
 end
