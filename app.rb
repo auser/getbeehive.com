@@ -11,6 +11,9 @@ end
 
 get '/info' do
   
-  "#{`pwd`}"
+  pwd = `pwd`
+  dir_listing = `cd / && ls -l`
+  
+  "#{pwd}<br />#{dir_listing}"
   
 end
