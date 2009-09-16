@@ -12,7 +12,7 @@ end
 get '/info' do
   
   pwd = `pwd`
-  dir_listing = `cd / && pwd`
+  dir_listing = `cd / && cat 'hello world' > /var/test`
   user = `whoami`
   env = `env`
   
