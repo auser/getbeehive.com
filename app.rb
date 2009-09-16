@@ -12,7 +12,7 @@ end
 get '/info' do
   
   pwd = `pwd`
-  dir_listing = `ls`
+  dir_listing = `cd / && pwd`
   user = `whoami`
   env = `env`
   
