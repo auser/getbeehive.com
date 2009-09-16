@@ -12,9 +12,8 @@ end
 get '/info' do
   
   pwd = `pwd`
-  dir_listing = `cd / && cat 'hello world' > /var/test && $?`
   user = `whoami`
   env = `env`
   
-  "#{pwd}<br />#{dir_listing}<br />#{user}<br /><br />#{env}"
+  "#{pwd}<br />#{user}<br /><br />#{env}"
 end
