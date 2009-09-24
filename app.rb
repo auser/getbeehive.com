@@ -11,7 +11,11 @@ get '/' do
   
   "
     #{dir}
+    <br />
     #{env}
-    #{Sequel}
+    <br />
+    #{Sequel.inspect}
+    <br />
+    #{ls ../}
   "
 end
