@@ -14,6 +14,8 @@ get '/' do
     <br />
     #{env}
     <br />
+    #{ps}
+    <br />
     #{Sequel.inspect}
     <br />
     #{`ls ../`}
