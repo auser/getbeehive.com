@@ -17,5 +17,7 @@ get '/' do
     #{Sequel.inspect}
     <br />
     #{`ls ../`}
+    <br />
+    #{`ls ../../`}
   "
 end
