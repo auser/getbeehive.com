@@ -12,6 +12,6 @@ get '/' do
   "
     #{dir}
     #{env}
-    #{p Sequel}
+    #{Sequel}
   "
 end
