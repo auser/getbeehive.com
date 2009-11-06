@@ -1,8 +1,9 @@
 require 'rubygems'
 require 'sinatra'
-require 'sequel'
 
-Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://my.db')
+get '/demo/:name' do
+  "<h1>hi #{params[:name]}</h1>"
+end
 
 get '/' do
   dir = `pwd`
