@@ -15,15 +15,5 @@ get '/' do
     <br />
     #{env}
     <br />
-    <br />
-    #{Sequel.inspect}
-    <br />
-    #{`ls ../`}
-    <br />
-    #{`ls ../../../`}
-    <br />
-    #{`ls ../../../railgun`}
-    <br />
-    #{`ls ../../../slugs`}
   "
 end
