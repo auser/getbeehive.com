@@ -101,16 +101,82 @@
         <p>
           <a href='/images/docs/proxy_socket_handler.png' ><img src='/images/docs/proxy_socket_handler.png' class='doc_image' alt='Beehive proxy_socket_handler.png' /></a>
           Once the proxy_handler connects to a bee, it moves into the proxy_loop that handles data to and from both the client and the bee server. To support streaming, it also pops off a process to watch for data coming from the client socket. When data is received from either end of the socket, that data is passed back into the other process.
+          <div class='callout-box'>
+              <div class='callout-content'>
+              <div class='callout-title'>Developer note</div>
+              <div class='callout-wrapper'><img src='/images/site/small_hive.png' class='callout_image'/></div>
+              This may be an area to look at, when to terminate the socket.</div>
+              </div>
         </p>
         <p>
           If either end closes their side of the socket, it prompts termination of the socket.
         </p>
+        <p class='clear'>
+          Finally, when the proxy_handler is terminated, it sends the event:
+          <pre class="blackboard"><span class="Keyword">?</span><span class="Entity">NOTIFY</span>({<span class="Constant">bee</span>, <span class="Constant">closing_stats</span>, <span class="Variable">Bee</span>, <span class="Variable">StatsProplist</span>})</pre>
+        </p>
+        <p>
+          These contain the bee that was connected as well as the stats of the server socket for storage.
+        </p>
         <div id='node'>
           <h3>Node</h3>
         </div>
+        <p>
+          The node layer is responsible for housing the actual endpoints. When a new bee gets deployed, from the app_manager (only happens when the bee is registered as an application, using the router layer without an application is the only time this would not happen) it looks for a new node that is capable of deploying a new app. This is achieved by asking the node_manager:
+          <pre class="blackboard"><span class="Constant">node_manager</span>:<span class="Constant">get_next_available_host</span><span class="Keyword">/</span><span class="Constant">0</span></pre>
+        </p>
+        <p>
+          If there is a new available host and the application is not registered as a static application (i.e. it can move around in the node-grid), then the app_handler launches a new process to launch the app on the node. The new process started, the <a href="http://github.com/auser/beehive/blob/master/lib/erlang/src/mesh/router/app_launcher_fsm.erl">app_launcher_fsm</a> sits with the command-process to start it.
+        </p>
+        <p>
+          If the process dies abnormally, then the bee has crashed for some reason and it is not marked as up. There are three phases to the app_launcher_fsm: launch, launching and pending. The launch phase gets called immediately and the app_handler is called on the node to start the bee. It then moves to the launching phase. If the bee is started by the app_handler on the node, then it sends back the message:
+          <pre class="blackboard">{<span class="Constant">started_bee</span>, <span class="Variable">Bee</span>}</pre>
+        </p>
+        <p>
+          If this message is received, then the process moves to the pending phase where it spawns a new erlang process to ping the bee. This will send a gen_tcp connect message to the bee. If the bee can be reached, it is marked as 'ready' and the app_launcher_fsm dies normally. If it cannot be reached immediately, it will retry several times. If it cannot be reached after the retries, it marks the bee as down and will not send any new connections to the bee.
+        </p>
+        <p>
+          <div class='callout-box'>
+              <div class='callout-content'>
+              
+              <div class='callout-wrapper'><img src='/images/site/small_hive.png' class='callout_image'/></div>
+              Bees are stored in the storage layer as <a href="http://squashfs.sourceforge.net/">squashfs</a> files to save space and pack all the dependencies of the application into a single file.</div>
+              </div>
+        </p>
+        <p>
+          Beehive currently requires that the applications launched be given a url that denotes where the git repository that contains the application code is. When this repos is updated, a git post-received hook can trigger the <a href="http://github.com/auser/beehive/blob/master/lib/erlang/src/mesh/router/app_updater_fsm.erl">app_updater_fsm</a> to pull the new code. More on the app_updater_fsm process in the storage layer, however when this happens, the app_updater_fsm will dictate that the node mount the new bee.
+        </p>
+        <p>
+          To mount the bee, the node needs the location of the squashfs file. It uses the library (written for Beehive) called <a href="http://github.com/auser/beehive/blob/master/lib/erlang/src/utils/slugger.erl">slugger</a> to transfer the files around on the grid. After the squashed bee is transferred to the node, it will call the shell code named <a href="http://github.com/auser/beehive/blob/master/lib/shell/mount-bee.sh">"mount-bee"</a> which will bind-mount the bee on the system. It will also create a user on the system named after the bee's app_name, if there is not one. This provides chrooted shell access to the read-only bee.
+        </p>
         <div id='storage'>
           <h3>Storage</h3>
         </div>
+        <p>
+          The storage layer is where the bee's code is queried. When the app_manager needs to deploy a new application, it calls the bh_storage_srv to update the bee.
+        </p>
+        <p>
+          When the app_updater_fsm moves into the 'squashing' state, it will call the <a href="http://github.com/auser/beehive/blob/master/lib/shell/create-bee.sh">"create-bee"</a> shell script. This script builds a mountable bee, pulling the git repository into the bee//home/app directory, as well. It also will install the gems defined in the .gems file, line-by-line. It alls "gem install $line --no-ri --no-rdoc;"
+        </p>
+        <p>
+          A sample .gems file would look like:
+          <pre class="blackboard">sinatra&#x000A;compass</pre>
+        </p>
+        <p>
+          It then creates the squashfs file and stores it in a hashed directory of the app name on the storage node.
+          <div class='callout-box'>
+              <div class='callout-content'>
+              <div class='callout-title'>Developer note</div>
+              <div class='callout-wrapper'><img src='/images/site/small_hive.png' class='callout_image'/></div>
+              Replication of the storage layer, the git repos is on the TODO list.</div>
+              </div>
+        </p>
+        <p>
+          When a node in the grid needs the squashed bee, the bh_storage_srv supports the method locate_git_repo/1, which will locate the squashed bee on the storage node's filesystem.
+        </p>
+        <p>
+          Beehive stores it's deployable applications into squashfs files, this way the application can move on the grid and not require any special deployment code.
+        </p>
         <p>
           More technical details about the system can be found on the
           <a href="http://github.com/auser/beehive/tree/master/lib/erlang/">readme</a>

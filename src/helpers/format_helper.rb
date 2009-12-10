@@ -8,6 +8,17 @@ module FormatHelper
     "<div class='term'><a name='#{term}' class='term-name'>#{term}</a>\n<div class='term-def'>#{capture_haml(&block).chomp}</div></div>\n"
   end
   
+  def callout(title=nil, &block)
+    callout_img_url = "/images/site/small_hive.png"
+    title = title ? "<div class='callout-title'>#{title}</div>" : ""
+    "<div class='callout-box'>
+    <div class='callout-content'>
+    #{title}
+    <div class='callout-wrapper'><img src='#{callout_img_url}' class='callout_image'/></div>
+    #{capture_haml(&block).chomp}</div>
+    </div>\n"
+  end
+  
   def right_links(&block)
     @right = capture_haml(&block).chomp
   end
