@@ -4,12 +4,8 @@
     %title Beehive - A swarm of applications
     = partial("_head")
   %body
+    = partial("_header")
     #content
-      %h1
-        %a{:href => "/"}
-          <span class="emp">Bee</span><span class="unemph">hive</span>
-      = partial("_top_links")
-      .clear
       #left
         = yield
       #right

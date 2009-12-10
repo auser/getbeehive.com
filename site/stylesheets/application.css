@@ -1,7 +1,6 @@
 body {
   font: 0.9em Georgia, "Times New Roman", Sans-Serif;
-  background: #FFFFFF url("/images/bg2.gif") repeat-x;
-  color: #333; }
+  margin: 0 auto; }
 
 a {
   color: #ff1100;
@@ -47,6 +46,28 @@ ul {
   ul li {
     list-style: none;
     padding: 0; }
+
+#header {
+  height: 200px;
+  background: #FFFFFF url("/images/bg2.gif") repeat-x;
+  color: #333;
+  position: relative; }
+  #header h1 {
+    position: absolute;
+    left: 190px; }
+  #header h4 {
+    position: absolute;
+    left: 250px;
+    top: 60px;
+    color: #EEE; }
+  #header img {
+    position: absolute;
+    top: 5px;
+    left: 0px; }
+  #header .emp {
+    color: #FFFFFF; }
+  #header .unemph {
+    color: #000; }
 
 #content {
   margin: 0 auto;

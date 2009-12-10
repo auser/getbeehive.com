@@ -9,12 +9,17 @@
     (function() { var ga = document.createElement('script');  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';  ga.setAttribute('async', 'true');  document.documentElement.firstChild.appendChild(ga);})();</script>
   </head>
   <body>
-    <div id='content'>
-      <h1>
-        <a href='/'>
+    <div id='header'>
+      <a href='/'>
+        <img height='180' src='/images/logo2.png' />
+        <!-- %img{:src => "/images/logo1.png", :height => "180"} -->
+        <h1>
           <span class="emp">Bee</span><span class="unemph">hive</span>
-        </a>
-      </h1>
+        </h1>
+        <h4>
+          A swarm of applications
+        </h4>
+      </a>
       <div id='top'>
         <ul>
           <li class="first"><a href="index.html">Home</a></li>
@@ -22,7 +27,8 @@
           <li class="last"><a href="community.html">Community</a></li>
         </ul>
       </div>
-      <div class='clear'></div>
+    </div>
+    <div id='content'>
       <div id='left'>
         
       </div>
