@@ -9,17 +9,36 @@
 
 %h4 Roles
 %ul.dots
-  %li Router - responsible for bee registration, client request routing and application/bee notifications
-  %li Node - the hosts where the applications are mounted and hosted
-  %li Storage - responsible for keeping track of the storage locations for the applications, git-repos, squashed bees, etc.
+  %li 
+    %a{:href => "#router"}
+      Router -
+    responsible for bee registration, client request routing and application/bee notifications
+  %li
+    %a{:href => "#node"}
+      Node - 
+    the hosts where the applications are mounted and hosted
+  %li 
+    %a{:href => "#router"}
+      Storage - 
+    responsible for keeping track of the storage locations for the applications, git-repos, squashed bees, etc.
 
-%h3 Router
+#router
+  %h3 Router
 
 %p
   The routing layer is responsible for client request routing as well as ensuring that applications are reachable, taking appropriate action if they are not.
   
 %p
-  When the routing layer is booted, it connects to a local (and, if given one, a seed's) database. Then it starts the RESTful interface to the 
+  When the routing layer is booted, it connects to a local (and, if given one, a seed's) database. Then it starts the RESTful interface to the backend. If this is successful, it starts the client acceptor process. 
+
+%p
+  The acceptor process is a basic tcp listener (implemented using <a href="http://www.erlang.org/doc/man/gen_tcp.html">gen_tcp</a>) that spawns an acceptor process for every request. Additionally, every request has a supervisor that watches the request. If there is an abnormality with the acceptor process, the supervisor will relaunch the accepted process, while the client never sees the problem. 
+
+#node
+  %h3 Node
+
+#storage
+  %h3 Storage
 
 %p
   More technical details about the system can be found on the

@@ -40,17 +40,43 @@
         </p>
         <h4>Roles</h4>
         <ul class='dots'>
-          <li>Router - responsible for bee registration, client request routing and application/bee notifications</li>
-          <li>Node - the hosts where the applications are mounted and hosted</li>
-          <li>Storage - responsible for keeping track of the storage locations for the applications, git-repos, squashed bees, etc.</li>
+          <li>
+            <a href='#router'>
+              Router -
+            </a>
+            responsible for bee registration, client request routing and application/bee notifications
+          </li>
+          <li>
+            <a href='#node'>
+              Node -
+            </a>
+            the hosts where the applications are mounted and hosted
+          </li>
+          <li>
+            <a href='#router'>
+              Storage -
+            </a>
+            responsible for keeping track of the storage locations for the applications, git-repos, squashed bees, etc.
+          </li>
         </ul>
-        <h3>Router</h3>
+        <div id='router'>
+          <h3>Router</h3>
+        </div>
         <p>
           The routing layer is responsible for client request routing as well as ensuring that applications are reachable, taking appropriate action if they are not.
         </p>
         <p>
-          When the routing layer is booted, it connects to a local (and, if given one, a seed's) database. Then it starts the RESTful interface to the
+          When the routing layer is booted, it connects to a local (and, if given one, a seed's) database. Then it starts the RESTful interface to the backend. If this is successful, it starts the client acceptor process.
         </p>
+        <p>
+          The acceptor process is a basic tcp listener (implemented using <a href="http://www.erlang.org/doc/man/gen_tcp.html">gen_tcp</a>) that spawns an acceptor process for every request. Additionally, every request has a supervisor that watches the request. If there is an abnormality with the acceptor process, the supervisor will relaunch the accepted process, while the client never sees the problem.
+        </p>
+        <div id='node'>
+          <h3>Node</h3>
+        </div>
+        <div id='storage'>
+          <h3>Storage</h3>
+        </div>
         <p>
           More technical details about the system can be found on the
           <a href="http://github.com/auser/beehive/tree/master/lib/erlang/">readme</a>
