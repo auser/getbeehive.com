@@ -135,7 +135,9 @@ ul {
 #footer {
   clear: both;
   padding: 15px 0;
-  border-top: 1px solid #CCC; }
+  border-top: 1px solid #CCC;
+  background: right 0 url("/images/bee_boxes.gif") no-repeat;
+  height: 180px; }
 
 .emp {
   color: #ddaa11; }
