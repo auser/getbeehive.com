@@ -4,6 +4,11 @@
 
 %h2 Documentation
 
+%p
+  This section describes the usage of beehive, for a technical description, head over to the
+  = link "tech"
+  section
+
 %h3 Quickstart
 
 %p
@@ -24,23 +29,32 @@
   Beehive currently requires you to use a CNAME to address the base route. This is because the routing key is based off the subdomain of the requested URL. Add the following line to your /etc/hosts file (or add a CNAME to your DNS provider):
   ~code_to_syntax "[your ip]  my_beehive.com"
 
-%h2 Apps
-
-%p
-  Beehive works by scaling applications registered with the <a href="http://github.com/auser/beehive/tree/master/lib/erlang/src/mesh/router/app_manager.erl">app_manager</a>
-
-%h2 Bees
-
-%p
-  What is a bee? A bee stands for a <span class="hl">B</span>ack<span class="hl">e</span>nd <span class="hl">e</span>ndpoint, which is the service endpoint. Think about this like apache or a thin process.
-
 %p
   Once the instances are all up, you should be able to curl your instance. Let's check out the router:
   ~curl_to_syntax "curl -i -XGET http://my_beehive.com:8080/", "get_root"
 
 %p
   Cool, that's the basic response that we get when we GET to the root url. Let's look at something more interesting:
-  ~curl_to_syntax "curl -i -XGET http://my_beehive.com:8080/bees", "get_no_bees"
+
+%h2 Apps
+
+%p
+  Beehive works by scaling applications registered with the <a href="http://github.com/auser/beehive/tree/master/lib/erlang/src/mesh/router/app_manager.erl">app_manager</a>. First, let's look at the apps on the system:
+  ~curl_to_syntax "curl -i -XGET http://my_beehive.com:8080/apps", "get_demo_apps"
+
+%p
+  You'll notice that there is a single app registered in the beehive from the start. This is done to show a demo application. Most likely, you'll want to blow this application away. This can be done with, like every other action with a curl:
+  
+  ~curl_to_syntax "curl -i -XDELETE -d\"{}\" my_beehive.com:8080/apps/webapp", "delete_app"
+
+%p
+  One more time to confirm the deletion, we'll check it:
+  ~curl_to_syntax "curl -i -XGET http://my_beehive.com:8080/apps", "delete_app_result"
+
+%h2 Bees
+
+%p
+  What is a bee? A bee stands for a <span class="hl">B</span>ack<span class="hl">e</span>nd <span class="hl">e</span>ndpoint, which is the service endpoint. Think about this like apache or a thin process.
 
 %p
   Cool. Let's add a bee manually so we can see how the proxy works. This, by the way is done automatically by beehive with new applications (we'll see this later), but we'll fake it for now, so we can check out the inner workings

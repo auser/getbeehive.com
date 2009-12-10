@@ -1,8 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
   <head>
-    <meta content='text/html;charset=utf-8' http-equiv='Content-Type' />
-    <meta content='Ari Lerner' name='author' />
     <title>Beehive - A swarm of applications</title>
     <link href="stylesheets/application.css" media="all" rel="stylesheet" type="text/css"/><link href="stylesheets/blackboard.css" media="all" rel="stylesheet" type="text/css"/><link href="stylesheets/idle.css" media="all" rel="stylesheet" type="text/css"/><link href="stylesheets/reset.css" media="all" rel="stylesheet" type="text/css"/><link href="stylesheets/sunburst.css" media="all" rel="stylesheet" type="text/css"/>
     <meta content='text/html;charset=utf-8' http-equiv='Content-Type' />
@@ -19,39 +17,38 @@
       </h1>
       <div id='top'>
         <ul>
-          <li class="first current"><a href="index.html">Home</a></li>
+          <li class="first"><a href="index.html">Home</a></li>
           <li><a href="documentation.html">Documentation</a></li>
           <li class="last"><a href="community.html">Community</a></li>
         </ul>
       </div>
-      <div id='intro'>
-        A swarm of applications, <a href="/">distributed routing</a>, fault-tolerant application deployment and scaling framework. Make deployment easy and scalable
-      </div>
       <div class='clear'></div>
       <div id='left'>
-        <h2>
-          What
-        </h2>
+        <h2>Technology</h2>
         <p>
-          Beehive is an open-source application deployment framework. It's goal is to provide a stable, scalable, fault-tolerant application in an unstable environment. Written in <a href="http://www.erlang.org/">Erlang</a> and <a href="http://www.ruby-lang.org/">Ruby</a>, Beehive provides a distributed router that sits in front of a mesh of client instances.
+          So how exactly does this work? Beehive is comprised of several systems. There are several layers to the application.
+          <pre class="blackboard">  Router&#x000A;<span class="Keyword">|</span>-----------<span class="Keyword">|</span>&#x000A;  Nodes&#x000A;<span class="Keyword">|</span>-----------<span class="Keyword">|</span>&#x000A;  Storage</pre>
         </p>
-        <h3>Features</h3>
+        <p>
+          Each of these layers has their own distinct roles from within beehive.
+        </p>
+        <h4>Roles</h4>
         <ul class='dots'>
-          <li>
-            Open-source
-          </li>
-          <li>
-            API driven through a <a href="http://en.wikipedia.org/wiki/Representational_State_Transfer">RESTful</a> interface.
-          </li>
-          <li>
-            Distributed via <a href="http://www.erlang.org/doc/apps/mnesia/">Mnesia</a>
-          </li>
-          <li>
-            Event-driven, modular architecture
-          </li>
+          <li>Router - responsible for bee registration, client request routing and application/bee notifications</li>
+          <li>Node - the hosts where the applications are mounted and hosted</li>
+          <li>Storage - responsible for keeping track of the storage locations for the applications, git-repos, squashed bees, etc.</li>
         </ul>
+        <h3>Router</h3>
+        <p>
+          The routing layer is responsible for client request routing as well as ensuring that applications are reachable, taking appropriate action if they are not.
+        </p>
+        <p>
+          More technical details about the system can be found on the
+          <a href="http://github.com/auser/beehive/tree/master/lib/erlang/">readme</a>
+        </p>
       </div>
       <div id='right'>
+        
         <h3>Quickstart</h3>
         <pre class="blackboard">git clone http://github.com/auser/beehive.git&#x000A;cloud start -c config/clouds.rb</pre>
         <h3>Links</h3>
@@ -62,7 +59,8 @@
       </div>
       <div class='clear'>&nbsp;</div>
       <div id='footer'>
-        Beehive, Copyright Ari Lerner 2009
+        Copyright &copy; 2009 - Ari Lerner and Cloudteam at AT&T Interactive
+        <a href="sitemap.html">sitemap</a>
       </div>
     </div>
   </body>

@@ -1,0 +1,23 @@
+%h2 Technology
+
+%p
+  So how exactly does this work? Beehive is comprised of several systems. There are several layers to the application.
+  ~code_to_syntax "  Router\n|-----------|\n  Nodes\n|-----------|\n  Storage", "shell-unix-generic"
+
+%p
+  Each of these layers has their own distinct roles from within beehive. 
+
+%h4 Roles
+%ul.dots
+  %li Router - responsible for bee registration, client request routing and application/bee notifications
+  %li Node - the hosts where the applications are mounted and hosted
+  %li Storage - responsible for keeping track of the storage locations for the applications, git-repos, squashed bees, etc.
+
+%h3 Router
+
+%p
+  The routing layer is responsible for client request routing as well as ensuring that applications are reachable, taking appropriate action if they are not. 
+
+%p
+  More technical details about the system can be found on the
+  = link "readme", "http://github.com/auser/beehive/tree/master/lib/erlang/"

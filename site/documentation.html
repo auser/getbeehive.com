@@ -25,6 +25,11 @@
       <div class='clear'></div>
       <div id='left'>
         <h2>Documentation</h2>
+        <p>
+          This section describes the usage of beehive, for a technical description, head over to the
+          <a href="tech.html">tech</a>
+          section
+        </p>
         <h3>Quickstart</h3>
         <p>
           Let's get ourselves started.
@@ -45,21 +50,29 @@
           Beehive currently requires you to use a CNAME to address the base route. This is because the routing key is based off the subdomain of the requested URL. Add the following line to your /etc/hosts file (or add a CNAME to your DNS provider):
           <pre class="blackboard">[your ip]  my_beehive.com</pre>
         </p>
-        <h2>Apps</h2>
-        <p>
-          Beehive works by scaling applications registered with the <a href="http://github.com/auser/beehive/tree/master/lib/erlang/src/mesh/router/app_manager.erl">app_manager</a>
-        </p>
-        <h2>Bees</h2>
-        <p>
-          What is a bee? A bee stands for a <span class="hl">B</span>ack<span class="hl">e</span>nd <span class="hl">e</span>ndpoint, which is the service endpoint. Think about this like apache or a thin process.
-        </p>
         <p>
           Once the instances are all up, you should be able to curl your instance. Let's check out the router:
           <pre class="blackboard">$<span class="Keyword">&gt;</span> curl -i -XGET http://my_beehive.com:8080/&#x000A;&#x000A;HTTP/1.1 200 OK&#x000A;Server: MochiWeb/1.0 (Any of you quaids got a smint?)&#x000A;Date: Thu, 10 Dec 2009 00:32:32 GMT&#x000A;Content-Type: text/json&#x000A;Content-Length: 36&#x000A;&#x000A;{<span class="String"><span class="String">&quot;</span>beehive<span class="String">&quot;</span></span>:<span class="String"><span class="String">&quot;</span>app, node, bees, stats<span class="String">&quot;</span></span>}</pre>
         </p>
         <p>
           Cool, that's the basic response that we get when we GET to the root url. Let's look at something more interesting:
-          <pre class="blackboard">$<span class="Keyword">&gt;</span> curl -i -XGET http://my_beehive.com:8080/bees&#x000A;&#x000A;HTTP/1.1 200 OK&#x000A;Server: MochiWeb/1.0 (Any of you quaids got a smint?)&#x000A;Date: Thu, 10 Dec 2009 00:36:25 GMT&#x000A;Content-Type: text/json&#x000A;Content-Length: 139&#x000A;&#x000A;{<span class="String"><span class="String">&quot;</span>bees<span class="String">&quot;</span></span>: []}</pre>
+        </p>
+        <h2>Apps</h2>
+        <p>
+          Beehive works by scaling applications registered with the <a href="http://github.com/auser/beehive/tree/master/lib/erlang/src/mesh/router/app_manager.erl">app_manager</a>. First, let's look at the apps on the system:
+          <pre class="blackboard">$<span class="Keyword">&gt;</span> curl -i -XGET http://my_beehive.com:8080/apps&#x000A;&#x000A;HTTP/1.1 200 OK&#x000A;Server: MochiWeb/1.0 (Any of you quaids got a smint?)&#x000A;Date: Thu, 10 Dec 2009 02:43:13 GMT&#x000A;Content-Type: text/json&#x000A;Content-Length: 134&#x000A;&#x000A;{<span class="String"><span class="String">&quot;</span>apps<span class="String">&quot;</span></span>:[{<span class="String"><span class="String">&quot;</span>name<span class="String">&quot;</span></span>:<span class="String"><span class="String">&quot;</span>webapp<span class="String">&quot;</span></span>,<span class="String"><span class="String">&quot;</span>url<span class="String">&quot;</span></span>:<span class="String"><span class="String">&quot;</span><span class="String">&quot;</span></span>,<span class="String"><span class="String">&quot;</span>routing_param<span class="String">&quot;</span></span>:<span class="String"><span class="String">&quot;</span>undefined<span class="String">&quot;</span></span>,<span class="String"><span class="String">&quot;</span>owners<span class="String">&quot;</span></span>:<span class="String"><span class="String">&quot;</span><span class="String">&quot;</span></span>&#x000A;	,<span class="String"><span class="String">&quot;</span>updated_at<span class="String">&quot;</span></span>:<span class="String"><span class="String">&quot;</span>63427617134<span class="String">&quot;</span></span>,<span class="String"><span class="String">&quot;</span>bee_picker<span class="String">&quot;</span></span>:<span class="String"><span class="String">&quot;</span>bee_strategies<span class="String">&quot;</span></span>}]}</pre>
+        </p>
+        <p>
+          You'll notice that there is a single app registered in the beehive from the start. This is done to show a demo application. Most likely, you'll want to blow this application away. This can be done with, like every other action with a curl:
+          <pre class="blackboard">$<span class="Keyword">&gt;</span> curl -i -XDELETE -d<span class="String"><span class="String">&quot;</span>{}<span class="String">&quot;</span></span> my_beehive.com:8080/apps/webapp&#x000A;&#x000A;HTTP/1.1 200 OK&#x000A;Server: MochiWeb/1.0 (Any of you quaids got a smint?)&#x000A;Date: Thu, 10 Dec 2009 02:56:24 GMT&#x000A;Content-Type: text/json&#x000A;Content-Length: 32&#x000A;&#x000A;{<span class="String"><span class="String">&quot;</span>message<span class="String">&quot;</span></span>:<span class="String"><span class="String">&quot;</span>Deleted app webapp<span class="String">&quot;</span></span>}</pre>
+        </p>
+        <p>
+          One more time to confirm the deletion, we'll check it:
+          <pre class="blackboard">$<span class="Keyword">&gt;</span> curl -i -XGET http://my_beehive.com:8080/apps&#x000A;&#x000A;HTTP/1.1 200 OK&#x000A;Server: MochiWeb/1.0 (Any of you quaids got a smint?)&#x000A;Date: Thu, 10 Dec 2009 02:56:28 GMT&#x000A;Content-Type: text/json&#x000A;Content-Length: 11&#x000A;&#x000A;{<span class="String"><span class="String">&quot;</span>apps<span class="String">&quot;</span></span>:[]}</pre>
+        </p>
+        <h2>Bees</h2>
+        <p>
+          What is a bee? A bee stands for a <span class="hl">B</span>ack<span class="hl">e</span>nd <span class="hl">e</span>ndpoint, which is the service endpoint. Think about this like apache or a thin process.
         </p>
         <p>
           Cool. Let's add a bee manually so we can see how the proxy works. This, by the way is done automatically by beehive with new applications (we'll see this later), but we'll fake it for now, so we can check out the inner workings
