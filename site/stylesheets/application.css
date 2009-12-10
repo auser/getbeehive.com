@@ -54,7 +54,7 @@ ul {
   position: relative; }
   #header h1 {
     position: absolute;
-    left: 190px; }
+    left: 210px; }
   #header h4 {
     position: absolute;
     left: 250px;
@@ -62,8 +62,8 @@ ul {
     color: #EEE; }
   #header img {
     position: absolute;
-    top: 5px;
-    left: 0px; }
+    top: 8px;
+    left: 9px; }
   #header .emp {
     color: #FFFFFF; }
   #header .unemph {
