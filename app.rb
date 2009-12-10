@@ -10,10 +10,14 @@ get '/:path.html' do
 end
 
 get '/info' do
+  dir = `pwd`
+  env = ENV.map {|k,v| "     #{k} => #{v}<br />"}
+  # ps = `ps auxwww`.split("\n").join("<br />")
   
-  pwd = `pwd`
-  user = `whoami`
-  env = `env`
-  
-  "#{pwd}<br />#{user}<br /><br />#{env}"
+  "
+    #{dir}
+    <br />
+    #{env}
+    <br />
+  "
 end
