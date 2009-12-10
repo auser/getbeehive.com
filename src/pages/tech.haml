@@ -30,9 +30,31 @@
   
 %p
   When the routing layer is booted, it connects to a local (and, if given one, a seed's) database. Then it starts the RESTful interface to the backend. If this is successful, it starts the client acceptor process. 
+  = doc_image("client_acceptor.png", "Client acceptor process")
 
 %p
-  The acceptor process is a basic tcp listener (implemented using <a href="http://www.erlang.org/doc/man/gen_tcp.html">gen_tcp</a>) that spawns an acceptor process for every request. Additionally, every request has a supervisor that watches the request. If there is an abnormality with the acceptor process, the supervisor will relaunch the accepted process, while the client never sees the problem. 
+  The acceptor process is a basic tcp listener (implemented using <a href="http://www.erlang.org/doc/man/gen_tcp.html">gen_tcp</a>) that spawns an acceptor process for every request. Additionally, every request has a supervisor that watches the request. If there is an abnormality with the acceptor process, the supervisor will relaunch the accepted process, while the client never sees the problem.
+  
+%p
+  When the process has been accepted, the <a href="http://github.com/auser/beehive/blob/master/lib/erlang/src/routing/proxy_handler.erl">proxy_handler</a> takes over control of the socket. It hands off the request to the Beehive protocol handler.
+
+%p
+  The protocol Beehive deals with is abstracted from the decoding of the process so that the proxy can handle any client request that is written for Beehive. Protocol request decoders must export one method called handle_request/1 and must pass back {ok, RoutingKey, ForwardReq, Req}. A plain protocol request decoder template looks like:
+  ~file_to_code "docs/protocol_handler.erl", "erlang"
+
+%p
+  The <a href="http://github.com/auser/beehive/blob/master/lib/erlang/src/request_decoders/http_request_decoder.erl">http request decoder</a> is built-in, so we'll continue talking about that. The http request headers are gathered and parsed by the decoder. The routing key is chosen by the header 'Host,' by default, but this can be overridden in the config (by setting the routing_parameter switch the <a href="http://github.com/auser/beehive/blob/master/lib/erlang/scripts/start_beehive.sh">./start_beehive.sh</a>) script.
+  
+%p
+  Once the routing_parameter has been picked off of the request, the proxy_handler attempts to find an available bee for the process to connect. If none is specified, then it chooses the 'base,' which connects to the local RESTful process (defaulting at port 4999) on the router. If there is a subdomain attached, then it first looks to see if an application is registered with the same name. If there is one, then it looks up it's bee_picker
+  = define_term("bee_picker") do
+    The bee_picker is the module that picks the bee from the rest. This defaults to the baked-in bee_strategies module, but this can be overridden. More on this later.
+  And then goes on to pick out the bee_strategy for the app.
+  = define_term("bee_strategy") do
+    The method that the bee_picker uses to pull off the bee. This can be overridden, but defaults to pick a random bee. There are built in ones that can be seen <a href="http://github.com/auser/beehive/blob/master/lib/erlang/src/mesh/router/bee_strategies.erl">here</a>.
+
+%p
+  Once the parameters are chosen, a bee is chosen. Only available bees are sent into the bee_picker, so if there are no available bees, then an empty array will be sent in. 
 
 #node
   %h3 Node

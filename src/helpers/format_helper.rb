@@ -1,5 +1,13 @@
 module FormatHelper
   
+  def doc_image(name, desc="Beehive #{name}")
+    "<a href='/images/docs/#{name}' ><img src='/images/docs/#{name}' class='doc_image' alt='#{desc}' /></a>"
+  end
+  
+  def define_term(term, &block)
+    "<div class='term'><a name='#{term}' class='term-name'>#{term}</a>\n<div class='term-def'>#{capture_haml(&block).chomp}</div></div>\n"
+  end
+  
   def right_links(&block)
     @right = capture_haml(&block).chomp
   end
