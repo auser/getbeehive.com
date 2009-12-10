@@ -4,6 +4,8 @@
   :padding 5px 5px
 
 !light_blue = #72b9eb
+!light_orange = #cc6611
+!bright_orange = #ff6600
 !orange = #ff1100
   
 body
@@ -78,7 +80,7 @@ ul
   .emp
     color: #FFFFFF
   .unemph
-    color: #000
+    :color= !bright_orange
 #content
   :margin 0 auto
   :width 900px
@@ -96,9 +98,9 @@ ul
       :color #CCCCCC
     a.current
       :color #FFFFFF
-      :background #cc6611
+      :background= !light_orange
     a:hover
-      :background #ff6600
+      :background= !bright_orange
       :color #FFF
 
 #intro

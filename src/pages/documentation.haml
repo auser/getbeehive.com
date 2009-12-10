@@ -62,10 +62,19 @@
 
 %p
   Nice, let's go look at the bees again with the above curl command:
-  %p
-    Cool, that's the basic response that we get when we GET to the root url. Let's look at something more interesting:
-    ~curl_to_syntax "curl -i -XGET http://my_beehive.com:8080/bees", "get_with_one_bee"
+%p
+  Cool, that's the basic response that we get when we GET to the root url. Let's look at something more interesting:
+  ~curl_to_syntax "curl -i -XGET http://my_beehive.com:8080/bees", "get_with_one_bee"
 
+%p
+  What if we wanted to delete a bee? That's pretty easy too. Simply post to the /bees endpoint with the DELETE header as: Name/Host/Port
+  ~curl_to_syntax "curl -i -XDELETE -d\"{}\" remote_beehive.com:8080/bees/webapp/ec2-75-101-199-175.compute-1.amazonaws.com/8080", "delete_a_bee"
+
+%h3 Users
+%p
+  Beehive ships with a basic user authentication interface. Certain endpoints require authenticated users to complete. For this, Beehive
+  
 %h3 More
+
 %p
   The documentation for beehive is available in depth throughout the source.

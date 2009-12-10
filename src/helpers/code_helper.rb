@@ -10,7 +10,7 @@ module CodeHelper
   end
   def curl_to_syntax(curl="", filename="", language="shell-unix-generic", theme="blackboard")
     code_to_syntax(
-      "$> #{wrap_line(curl, 91)}\n\n" + open(::File.join(File.dirname(__FILE__), "..", "examples", "curls", "#{filename}.sh")).read, 
+      "$> #{curl}\n\n" + open(::File.join(File.dirname(__FILE__), "..", "examples", "curls", "#{filename}.sh")).read, 
       language, theme
     )
   end
