@@ -55,6 +55,17 @@
 
 %p
   Once the parameters are chosen, a bee is chosen. Only available bees are sent into the bee_picker, so if there are no available bees, then an empty array will be sent in. 
+  
+%p
+  The bee strategy is then used to pick the bee. If there are no bees available, the request is placed into the waiting_queue, which is popped every time a bee becomes available. That is, the request gets placed in the queue that has the following structure
+  ~code_to_syntax "{RequestKey, {{RequestKey, BeePicker, BeeStrategy}, From, FromPid, Timestamp}"
+
+%p
+  = doc_image("proxy_socket_handler.png")
+  Once the proxy_handler connects to a bee, it moves into the proxy_loop that handles data to and from both the client and the bee server. To support streaming, it also pops off a process to watch for data coming from the client socket. When data is received from either end of the socket, that data is passed back into the other process.
+
+%p
+  If either end closes their side of the socket, it prompts termination of the socket.
 
 #node
   %h3 Node

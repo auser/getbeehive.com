@@ -30,7 +30,9 @@ p {
 pre {
   margin: 0;
   padding: 0;
-  width: 100%; }
+  width: 100%;
+  overflow: auto;
+  background: #333; }
 
 dl {
   padding: 0;
