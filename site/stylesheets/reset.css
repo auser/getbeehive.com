@@ -1,0 +1,18 @@
+<html>
+  <head>
+    <style type='text/css'>
+      body { font-family: helvetica, verdana, arial; font-size: 10pt;}
+    </style>
+  </head>
+  <body>
+    <h1>
+      StaticMatic::TemplateError
+      in
+      /Users/auser/Sites/getbeehive.com/src/stylesheets/reset.sass
+    </h1>
+    <p>Properties aren't allowed at the root of a document.</p>
+    2:   :margin 0<br/>3:   :padding 0<br/>4:   <br/>5: :focus, :active <br/>6:   outline: 0<br/>
+    <h2>Backtrace</h2>
+    (sass):5<br/>/Library/Ruby/Gems/1.8/gems/haml-2.2.13/lib/sass/tree/node.rb:128:in `to_s'<br/>/Library/Ruby/Gems/1.8/gems/haml-2.2.13/lib/sass/tree/node.rb:124:in `each'<br/>/Library/Ruby/Gems/1.8/gems/haml-2.2.13/lib/sass/tree/node.rb:124:in `to_s'<br/>/Library/Ruby/Gems/1.8/gems/haml-2.2.13/lib/sass/tree/node.rb:103:in `render'<br/>/Library/Ruby/Gems/1.8/gems/haml-2.2.13/lib/sass/engine.rb:148:in `to_css'<br/>/Library/Ruby/Gems/1.8/gems/staticmatic-0.10.6/bin/../lib/staticmatic/mixins/render.rb:81:in `generate_css'<br/>/Library/Ruby/Gems/1.8/gems/staticmatic-0.10.6/bin/../lib/staticmatic/mixins/build.rb:23:in `build_css'<br/>/Library/Ruby/Gems/1.8/gems/staticmatic-0.10.6/bin/../lib/staticmatic/mixins/build.rb:19:in `each'<br/>/Library/Ruby/Gems/1.8/gems/staticmatic-0.10.6/bin/../lib/staticmatic/mixins/build.rb:19:in `build_css'<br/>/Library/Ruby/Gems/1.8/gems/staticmatic-0.10.6/bin/../lib/staticmatic/mixins/build.rb:4:in `build'<br/>/Library/Ruby/Gems/1.8/gems/staticmatic-0.10.6/bin/../lib/staticmatic/base.rb:60:in `send'<br/>/Library/Ruby/Gems/1.8/gems/staticmatic-0.10.6/bin/../lib/staticmatic/base.rb:60:in `run'<br/>/Library/Ruby/Gems/1.8/gems/staticmatic-0.10.6/bin/staticmatic:23<br/>/usr/bin/staticmatic:19:in `load'<br/>/usr/bin/staticmatic:19
+  </body>
+</html>

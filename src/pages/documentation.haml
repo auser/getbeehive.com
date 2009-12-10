@@ -1,0 +1,57 @@
+- right_links do
+  %h3 More links
+  = menubar ["PoolParty", "http://poolpartyrb.com"], ["Ec2 tutorials", "http://www.google.com/search?client=safari&rls=en&q=ec2+tutorial&ie=UTF-8&oe=UTF-8"]
+
+%h2 Documentation
+
+%h3 Quickstart
+
+%p
+  Let's get ourselves started.
+  ~file_to_code "docs/quickstart.rb", "shell-unix-generic"
+
+%p
+  First, we have to start the cloud that will hold the instances (in ec2). Beehive makes this easy by including a <a href="http://poolpartyrb.com">PoolParty</a> script to define the cloud infrastructure. This makes it easy to start the cloud with a single command.
+
+%p
+  Now, we'll give the cloud a few minutes to boot up and provision itself. As soon as the instances are up, you can log into the instances with the following command, if you'd like to see the process:
+  ~code_to_syntax "cloud ssh -c config/clouds.rb"
+%P
+  From there, I usually tail the syslog to see what the user-data is up to. 
+  ~code_to_syntax "tail -f /var/log/syslog"
+
+%p
+  Beehive currently requires you to use a CNAME to address the base route. This is because the routing key is based off the subdomain of the requested URL. Add the following line to your /etc/hosts file (or add a CNAME to your DNS provider):
+  ~code_to_syntax "[your ip]  my_beehive.com"
+
+%h2 Apps
+
+%p
+  Beehive works by scaling applications registered with the <a href="http://github.com/auser/beehive/tree/master/lib/erlang/src/mesh/router/app_manager.erl">app_manager</a>
+
+%h2 Bees
+
+%p
+  What is a bee? A bee stands for a <span class="hl">B</span>ack<span class="hl">e</span>nd <span class="hl">e</span>ndpoint, which is the service endpoint. Think about this like apache or a thin process.
+
+%p
+  Once the instances are all up, you should be able to curl your instance. Let's check out the router:
+  ~curl_to_syntax "curl -i -XGET http://my_beehive.com:8080/", "get_root"
+
+%p
+  Cool, that's the basic response that we get when we GET to the root url. Let's look at something more interesting:
+  ~curl_to_syntax "curl -i -XGET http://my_beehive.com:8080/bees", "get_no_bees"
+
+%p
+  Cool. Let's add a bee manually so we can see how the proxy works. This, by the way is done automatically by beehive with new applications (we'll see this later), but we'll fake it for now, so we can check out the inner workings
+  ~curl_to_syntax "curl -i -XPOST -d\"{\"app_name\":\"webapp\", \"host\":\"ec2-75-101-199-175.compute-1.amazonaws.com\", \"port\":\"8080\"}\" my_beehive.com:8080/bees/new", "post_a_new_bee"
+
+%p
+  Nice, let's go look at the bees again with the above curl command:
+  %p
+    Cool, that's the basic response that we get when we GET to the root url. Let's look at something more interesting:
+    ~curl_to_syntax "curl -i -XGET http://my_beehive.com:8080/bees", "get_with_one_bee"
+
+%h3 More
+%p
+  The documentation for beehive is available in depth throughout the source.

@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Beehive - A swarm of applications</title>
+    <link href="stylesheets/application.css" media="all" rel="stylesheet" type="text/css"/><link href="stylesheets/blackboard.css" media="all" rel="stylesheet" type="text/css"/><link href="stylesheets/idle.css" media="all" rel="stylesheet" type="text/css"/><link href="stylesheets/reset.css" media="all" rel="stylesheet" type="text/css"/><link href="stylesheets/sunburst.css" media="all" rel="stylesheet" type="text/css"/>
+    <meta content='text/html;charset=utf-8' http-equiv='Content-Type' />
+    <meta content='Ari Lerner' name='author' />
+    <script type='text/javascript'>var _gaq = _gaq || [];_gaq.push(['_setAccount', 'UA-8105436-7']);_gaq.push(['_trackPageview']);
+    (function() { var ga = document.createElement('script');  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';  ga.setAttribute('async', 'true');  document.documentElement.firstChild.appendChild(ga);})();</script>
+  </head>
+  <body>
+    <div id='content'>
+      <h1>
+        <a href='/'>
+          <span class="emp">Bee</span><span class="unemph">hive</span>
+        </a>
+      </h1>
+      <div id='top'>
+        <ul>
+          <li class="first"><a href="index.html">Home</a></li>
+          <li class="current"><a href="documentation.html">Documentation</a></li>
+          <li class="last"><a href="community.html">Community</a></li>
+        </ul>
+      </div>
+      <div class='clear'></div>
+      <div id='left'>
+        <h2>Documentation</h2>
+        <h3>Quickstart</h3>
+        <p>
+          Let's get ourselves started.
+          <pre class="blackboard">git clone http://github.com/auser/beehive.git&#x000A;cloud start -c config/clouds.rb&#x000A;<span class="Comment"><span class="Comment">#</span> wait a few minutes</span>&#x000A;cloud list -c config/clouds.rb&#x000A;<span class="Comment"><span class="Comment">#</span> Setup a CNAME for your router instance</span>&#x000A;curl -i http://yourcname.com:8080</pre>
+        </p>
+        <p>
+          First, we have to start the cloud that will hold the instances (in ec2). Beehive makes this easy by including a <a href="http://poolpartyrb.com">PoolParty</a> script to define the cloud infrastructure. This makes it easy to start the cloud with a single command.
+        </p>
+        <p>
+          Now, we'll give the cloud a few minutes to boot up and provision itself. As soon as the instances are up, you can log into the instances with the following command, if you'd like to see the process:
+          <pre class="blackboard">cloud ssh <span class="Keyword">-</span>c config<span class="Keyword">/</span>clouds.rb</pre>
+        </p>
+        <P>
+          From there, I usually tail the syslog to see what the user-data is up to.
+          <pre class="blackboard">tail <span class="Keyword">-</span>f <span class="Keyword">/</span>var<span class="Keyword">/</span>log<span class="Keyword">/</span>syslog</pre>
+        </P>
+        <p>
+          Beehive currently requires you to use a CNAME to address the base route. This is because the routing key is based off the subdomain of the requested URL. Add the following line to your /etc/hosts file (or add a CNAME to your DNS provider):
+          <pre class="blackboard">[your ip]  my_beehive.com</pre>
+        </p>
+        <h2>Apps</h2>
+        <p>
+          Beehive works by scaling applications registered with the <a href="http://github.com/auser/beehive/tree/master/lib/erlang/src/mesh/router/app_manager.erl">app_manager</a>
+        </p>
+        <h2>Bees</h2>
+        <p>
+          What is a bee? A bee stands for a <span class="hl">B</span>ack<span class="hl">e</span>nd <span class="hl">e</span>ndpoint, which is the service endpoint. Think about this like apache or a thin process.
+        </p>
+        <p>
+          Once the instances are all up, you should be able to curl your instance. Let's check out the router:
+          <pre class="blackboard">$<span class="Keyword">&gt;</span> curl -i -XGET http://my_beehive.com:8080/&#x000A;&#x000A;HTTP/1.1 200 OK&#x000A;Server: MochiWeb/1.0 (Any of you quaids got a smint?)&#x000A;Date: Thu, 10 Dec 2009 00:32:32 GMT&#x000A;Content-Type: text/json&#x000A;Content-Length: 36&#x000A;&#x000A;{<span class="String"><span class="String">&quot;</span>beehive<span class="String">&quot;</span></span>:<span class="String"><span class="String">&quot;</span>app, node, bees, stats<span class="String">&quot;</span></span>}</pre>
+        </p>
+        <p>
+          Cool, that's the basic response that we get when we GET to the root url. Let's look at something more interesting:
+          <pre class="blackboard">$<span class="Keyword">&gt;</span> curl -i -XGET http://my_beehive.com:8080/bees&#x000A;&#x000A;HTTP/1.1 200 OK&#x000A;Server: MochiWeb/1.0 (Any of you quaids got a smint?)&#x000A;Date: Thu, 10 Dec 2009 00:36:25 GMT&#x000A;Content-Type: text/json&#x000A;Content-Length: 139&#x000A;&#x000A;{<span class="String"><span class="String">&quot;</span>bees<span class="String">&quot;</span></span>: []}</pre>
+        </p>
+        <p>
+          Cool. Let's add a bee manually so we can see how the proxy works. This, by the way is done automatically by beehive with new applications (we'll see this later), but we'll fake it for now, so we can check out the inner workings
+          <pre class="blackboard">$<span class="Keyword">&gt;</span> curl -i -XPOST -d<span class="String"><span class="String">&quot;</span>{<span class="String">&quot;</span></span>app_name<span class="String"><span class="String">&quot;</span>:<span class="String">&quot;</span></span>webapp<span class="String"><span class="String">&quot;</span>, <span class="String">&quot;</span></span>host<span class="String"><span class="String">&quot;</span>:<span class="String">&quot;</span></span>ec2-75-101-199-175.compute-1.amazonaws.com<span class="String"><span class="String">&quot;</span>,</span>&#x000A;<span class="String"> <span class="String">&quot;</span></span>port<span class="String"><span class="String">&quot;</span>:<span class="String">&quot;</span></span>8080<span class="String"><span class="String">&quot;</span>}<span class="String">&quot;</span></span> my_beehive.com:8080/bees/new&#x000A;&#x000A;HTTP/1.1 200 OK&#x000A;Server: MochiWeb/1.0 (Any of you quaids got a smint?)&#x000A;Date: Thu, 10 Dec 2009 00:50:25 GMT&#x000A;Content-Type: text/json&#x000A;Content-Length: 30&#x000A;&#x000A;{<span class="String"><span class="String">&quot;</span>message<span class="String">&quot;</span></span>:<span class="String"><span class="String">&quot;</span>Added bee webapp<span class="String">&quot;</span></span>}</pre>
+        </p>
+        <p>
+          Nice, let's go look at the bees again with the above curl command:
+          <p>
+            Cool, that's the basic response that we get when we GET to the root url. Let's look at something more interesting:
+            <pre class="blackboard">$<span class="Keyword">&gt;</span> curl -i -XGET http://my_beehive.com:8080/bees&#x000A;&#x000A;HTTP/1.1 200 OK&#x000A;Server: MochiWeb/1.0 (Any of you quaids got a smint?)&#x000A;Date: Thu, 10 Dec 2009 00:36:25 GMT&#x000A;Content-Type: text/json&#x000A;Content-Length: 139&#x000A;&#x000A;{<span class="String"><span class="String">&quot;</span>bees<span class="String">&quot;</span></span>: [{<span class="String"><span class="String">&quot;</span>app_name<span class="String">&quot;</span></span>:<span class="String"><span class="String">&quot;</span>webapp<span class="String">&quot;</span></span>,<span class="String"><span class="String">&quot;</span>host<span class="String">&quot;</span></span>:<span class="String"><span class="String">&quot;</span>ec2-75-101-199-175.compute-1.amazonaws.com<span class="String">&quot;</span></span>,&#x000A;<span class="String"><span class="String">&quot;</span>port<span class="String">&quot;</span></span>:<span class="String"><span class="String">&quot;</span>8080<span class="String">&quot;</span></span>,<span class="String"><span class="String">&quot;</span>meta data<span class="String">&quot;</span></span>:<span class="String"><span class="String">&quot;</span>undefined<span class="String">&quot;</span></span>,<span class="String"><span class="String">&quot;</span>status<span class="String">&quot;</span></span>:<span class="String"><span class="String">&quot;</span>ready<span class="String">&quot;</span></span>}]}</pre>
+          </p>
+        </p>
+        <h3>More</h3>
+        <p>
+          The documentation for beehive is available in depth throughout the source.
+        </p>
+      </div>
+      <div id='right'>
+        <h3>More links</h3>
+        <ul>
+          <li class="first"><a href="http://poolpartyrb.com">PoolParty</a></li>
+          <li class="last"><a href="http://www.google.com/search?client=safari&rls=en&q=ec2+tutorial&ie=UTF-8&oe=UTF-8">Ec2 tutorials</a></li>
+        </ul>
+        <h3>Quickstart</h3>
+        <pre class="blackboard">git clone http://github.com/auser/beehive.git&#x000A;cloud start -c config/clouds.rb</pre>
+        <h3>Links</h3>
+        <ul>
+          <li class="first"><a href="http://github.com/auser/beehive">Github</a></li>
+          <li class="last"><a href="http://github.com/auser/beehive/wikis">Wiki</a></li>
+        </ul>
+      </div>
+      <div class='clear'>&nbsp;</div>
+      <div id='footer'>
+        Copyright &copy; 2009 - Ari Lerner and Cloudteam at AT&T Interactive
+        <a href="sitemap.html">sitemap</a>
+      </div>
+    </div>
+  </body>
+</html>

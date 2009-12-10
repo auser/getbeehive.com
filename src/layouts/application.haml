@@ -1,0 +1,21 @@
+!!!
+%html
+  %head
+    %title Beehive - A swarm of applications
+    = partial("_head")
+  %body
+    #content
+      %h1
+        %a{:href => "/"}
+          <span class="emp">Bee</span><span class="unemph">hive</span>
+      = partial("_top_links")
+      .clear
+      #left
+        = yield
+      #right
+        = @right
+        = partial("_right")
+      .clear &nbsp;
+      #footer
+        Copyright &copy; 2009 - Ari Lerner and Cloudteam at AT&T Interactive
+        =link "sitemap"

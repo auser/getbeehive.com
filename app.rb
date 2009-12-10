@@ -2,11 +2,11 @@ require "rubygems"
 require "sinatra"
 
 get '/' do
-  "First app suucess!"
+  open("site/index.html").read
 end
 
-get '/hi' do
-  "HEllo!"
+get '/:path.html' do
+  open("site/#{params[:path]}.html").read
 end
 
 get '/info' do

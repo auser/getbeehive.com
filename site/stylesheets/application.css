@@ -1,0 +1,140 @@
+body {
+  font: 0.9em Georgia, "Times New Roman", Sans-Serif;
+  background: #FFFFFF url("/images/bg2.gif") repeat-x;
+  color: #333; }
+
+a {
+  color: #ff1100;
+  text-decoration: none; }
+
+img {
+  border: 0; }
+
+h1 {
+  float: left;
+  margin: 20px 0 50px;
+  font-size: 4em; }
+
+h2 {
+  font-size: 2.4em;
+  font-weight: normal;
+  margin: 0 0 20px; }
+  h2 a:hover {
+    background: #A82A15;
+    color: #FFF; }
+
+p {
+  margin: 5px 0 15px;
+  font-size: 1.1em;
+  line-height: 1.6em; }
+
+pre {
+  margin: 0;
+  padding: 0;
+  width: 100%; }
+
+dl {
+  padding: 0;
+  margin: 0; }
+  dl dd {
+    padding: 0;
+    margin: 0; }
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0; }
+  ul li {
+    list-style: none;
+    padding: 0; }
+
+#content {
+  margin: 0 auto;
+  width: 1080px; }
+
+#top {
+  float: right;
+  margin: 38px 0 30px 0; }
+  #top li {
+    list-style: none;
+    display: inline; }
+    #top li a {
+      float: left;
+      padding: 9px 24px;
+      margin: 3px 2px 0 0;
+      color: #CCCCCC; }
+    #top li a.current {
+      color: #FFFFFF;
+      background: #cc6611; }
+    #top li a:hover {
+      background: #ff6600;
+      color: #FFF; }
+
+#intro {
+  clear: both;
+  padding: 15px 0 10px 20px;
+  border: 1px solid #dedede;
+  font-size: 1.3em;
+  background: #eee;
+  margin: 10px 0 30px; }
+
+#left {
+  float: left;
+  width: 680px;
+  margin: 0 0 15px; }
+  #left dl {
+    margin-top: 5px; }
+    #left dl dt {
+      font-size: 1.2em;
+      text-indent: 14px; }
+
+#right {
+  float: right;
+  width: 350px; }
+  #right h3 {
+    border-bottom: 1px solid #CCCCCC;
+    margin: 20px 0 10px; }
+  #right img {
+    margin: 0 3px 3px 0;
+    border: 2px solid #eee;
+    padding: 2px; }
+  #right ul {
+    list-style: none;
+    padding: 0;
+    margin: 0; }
+    #right ul li {
+      list-style: none;
+      padding: 0; }
+      #right ul li a {
+        display: block;
+        padding: 5px 5px; }
+      #right ul li a:hover {
+        background: #eee; }
+
+#footer {
+  clear: both;
+  padding: 15px 0;
+  border-top: 1px solid #CCC; }
+
+.emp {
+  color: #ddaa11; }
+
+.unemph {
+  color: #FFF; }
+
+.clear {
+  clear: both; }
+
+.hl {
+  color: #ff8800;
+  font-weight: bold;
+  text-decoration: underline; }
+
+ul .last {
+  border-bottom: 0px solid #eeee77; }
+
+.dots li {
+  margin-left: 25px;
+  margin-bottom: 5px;
+  padding-left: 5px;
+  list-style-type: disc; }
