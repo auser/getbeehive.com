@@ -72,8 +72,34 @@
 
 %h3 Users
 %p
-  Beehive ships with a basic user authentication interface. Certain endpoints require authenticated users to complete. For this, Beehive
+  Beehive ships with a basic user authentication interface. Certain endpoints require authenticated users to complete. For this, Beehive provides each user with a token.
+  = callout "Developer note" do
+    The basic authentication process may move to oath in the future.
+
+%p
+  To run an authenticated action, let's first check out the users that ship with Beehive. Again, we can do this with a curl:
+  .clear
+  ~curl_to_syntax "curl -i my_beehive.com:8080/users", "get_basic_users"
+
+%p
+  Beehive ships with a single root user of the email "root@getbeehive.com" and a password of "test". To actually interact, let's get that user a token:
+  ~curl_to_syntax "curl -i -XPOST -d\"{\"email\":\"root@getbeehive.com\", \"password\": \"test\"}\" http://my_beehive.com:8080/auth", "get_token_for_root_user"
   
+%p
+  The auth controller gives us back a generated token in the response. Now, we'll use that token in the future to interact with the beehive. So let's try it out. Let's add a new user at the administrator level (level 1).
+  ~curl_to_syntax "curl -i -XPOST -d\"{\"email\":\"arilerner@mac.com\", \"password\":\"test\", \"level\":\"1\", \"token\":\"4de2c4cb3e8716c829072c4a19d53c05\"}\" http://my_beehive.com:8080/users/new", "add_a_user"
+
+%p
+  Sweet, it looks like it worked. Let's make sure by checking our users now
+  ~curl_to_syntax "curl -i my_beehive.com:8080/users", "get_added_users"
+
+%p
+  Nice! Now let's clean up our old user:
+  ~curl_to_syntax "curl -i -XDELETE -d\"{\"email\":\"root@getbeehive.com\", \"token\":\"4de2c4cb3e8716c829072c4a19d53c05\"}\" http://my_beehive.com:8080/users", "cleanup_root_user"
+
+%p
+  Great. Now anytime we want to interact with a command that requires a user, we'll just use the user's token.
+
 %h3 More
 
 %p

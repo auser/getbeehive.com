@@ -98,7 +98,37 @@
         </p>
         <h3>Users</h3>
         <p>
-          Beehive ships with a basic user authentication interface. Certain endpoints require authenticated users to complete. For this, Beehive
+          Beehive ships with a basic user authentication interface. Certain endpoints require authenticated users to complete. For this, Beehive provides each user with a token.
+          <div class='callout-box'>
+              <div class='callout-content'>
+              <div class='callout-title'>Developer note</div>
+              <div class='callout-wrapper'><img src='/images/site/small_hive.png' class='callout_image'/></div>
+              The basic authentication process may move to oath in the future.</div>
+              </div>
+        </p>
+        <p>
+          To run an authenticated action, let's first check out the users that ship with Beehive. Again, we can do this with a curl:
+          <div class='clear'></div>
+          <pre class="blackboard">$<span class="Keyword">&gt;</span> curl -i my_beehive.com:8080/users&#x000A;&#x000A;HTTP/1.1 200 OK&#x000A;Server: MochiWeb/1.0 (Any of you quaids got a smint?)&#x000A;Date: Thu, 10 Dec 2009 23:58:50 GMT&#x000A;Content-Type: text/json&#x000A;Content-Length: 43&#x000A;&#x000A;{<span class="String"><span class="String">&quot;</span>users<span class="String">&quot;</span></span>:[{<span class="String"><span class="String">&quot;</span>email<span class="String">&quot;</span></span>:<span class="String"><span class="String">&quot;</span>root@getbeehive.com<span class="String">&quot;</span></span>}]}</pre>
+        </p>
+        <p>
+          Beehive ships with a single root user of the email "root@getbeehive.com" and a password of "test". To actually interact, let's get that user a token:
+          <pre class="blackboard">$<span class="Keyword">&gt;</span> curl -i -XPOST -d<span class="String"><span class="String">&quot;</span>{<span class="String">&quot;</span></span>email<span class="String"><span class="String">&quot;</span>:<span class="String">&quot;</span></span>root@getbeehive.com<span class="String"><span class="String">&quot;</span>, <span class="String">&quot;</span></span>password<span class="String"><span class="String">&quot;</span>: <span class="String">&quot;</span></span>test<span class="String"><span class="String">&quot;</span>}<span class="String">&quot;</span></span> http://my_beehive.com:8080/auth&#x000A;&#x000A;HTTP/1.1 200 OK&#x000A;Server: MochiWeb/1.0 (Any of you quaids got a smint?)&#x000A;Date: Fri, 11 Dec 2009 00:02:41 GMT&#x000A;Content-Type: text/json&#x000A;Content-Length: 73&#x000A;&#x000A;{<span class="String"><span class="String">&quot;</span>user<span class="String">&quot;</span></span>:<span class="String"><span class="String">&quot;</span>root@getbeehive.com<span class="String">&quot;</span></span>,<span class="String"><span class="String">&quot;</span>token<span class="String">&quot;</span></span>:<span class="String"><span class="String">&quot;</span>4de2c4cb3e8716c829072c4a19d53c05<span class="String">&quot;</span></span>}</pre>
+        </p>
+        <p>
+          The auth controller gives us back a generated token in the response. Now, we'll use that token in the future to interact with the beehive. So let's try it out. Let's add a new user at the administrator level (level 1).
+          <pre class="blackboard">$<span class="Keyword">&gt;</span> curl -i -XPOST -d<span class="String"><span class="String">&quot;</span>{<span class="String">&quot;</span></span>email<span class="String"><span class="String">&quot;</span>:<span class="String">&quot;</span></span>arilerner@mac.com<span class="String"><span class="String">&quot;</span>, <span class="String">&quot;</span></span>password<span class="String"><span class="String">&quot;</span>:<span class="String">&quot;</span></span>test<span class="String"><span class="String">&quot;</span>, <span class="String">&quot;</span></span>level<span class="String"><span class="String">&quot;</span>:<span class="String">&quot;</span></span>1<span class="String"><span class="String">&quot;</span>, <span class="String">&quot;</span></span>token<span class="String"><span class="String">&quot;</span>:<span class="String">&quot;</span></span>4de2c4cb3e8716c829072c4a19d53c05<span class="String"><span class="String">&quot;</span>}<span class="String">&quot;</span></span> http://my_beehive.com:8080/users/new&#x000A;&#x000A;HTTP/1.1 200 OK&#x000A;Server: MochiWeb/1.0 (Any of you quaids got a smint?)&#x000A;Date: Fri, 11 Dec 2009 00:07:06 GMT&#x000A;Content-Type: text/json&#x000A;Content-Length: 28&#x000A;&#x000A;{<span class="String"><span class="String">&quot;</span>user<span class="String">&quot;</span></span>:<span class="String"><span class="String">&quot;</span>arilerner@mac.com<span class="String">&quot;</span></span>}</pre>
+        </p>
+        <p>
+          Sweet, it looks like it worked. Let's make sure by checking our users now
+          <pre class="blackboard">$<span class="Keyword">&gt;</span> curl -i my_beehive.com:8080/users&#x000A;&#x000A;HTTP/1.1 200 OK&#x000A;Server: MochiWeb/1.0 (Any of you quaids got a smint?)&#x000A;Date: Fri, 11 Dec 2009 00:08:52 GMT&#x000A;Content-Type: text/json&#x000A;Content-Length: 73&#x000A;&#x000A;{<span class="String"><span class="String">&quot;</span>users<span class="String">&quot;</span></span>:[{<span class="String"><span class="String">&quot;</span>email<span class="String">&quot;</span></span>:<span class="String"><span class="String">&quot;</span>arilerner@mac.com<span class="String">&quot;</span></span>},{<span class="String"><span class="String">&quot;</span>email<span class="String">&quot;</span></span>:<span class="String"><span class="String">&quot;</span>root@getbeehive.com<span class="String">&quot;</span></span>}]}</pre>
+        </p>
+        <p>
+          Nice! Now let's clean up our old user:
+          <pre class="blackboard">$<span class="Keyword">&gt;</span> curl -i -XDELETE -d<span class="String"><span class="String">&quot;</span>{<span class="String">&quot;</span></span>email<span class="String"><span class="String">&quot;</span>:<span class="String">&quot;</span></span>root@getbeehive.com<span class="String"><span class="String">&quot;</span>, <span class="String">&quot;</span></span>token<span class="String"><span class="String">&quot;</span>:<span class="String">&quot;</span></span>4de2c4cb3e8716c829072c4a19d53c05<span class="String"><span class="String">&quot;</span>}<span class="String">&quot;</span></span> http://my_beehive.com:8080/users&#x000A;&#x000A;HTTP/1.1 200 OK&#x000A;Server: MochiWeb/1.0 (Any of you quaids got a smint?)&#x000A;Date: Fri, 11 Dec 2009 00:10:05 GMT&#x000A;Content-Type: text/json&#x000A;Content-Length: 4&#x000A;&#x000A;<span class="String"><span class="String">&quot;</span>ok<span class="String">&quot;</span></span></pre>
+        </p>
+        <p>
+          Great. Now anytime we want to interact with a command that requires a user, we'll just use the user's token.
         </p>
         <h3>More</h3>
         <p>
