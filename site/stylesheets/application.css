@@ -61,18 +61,19 @@ ul {
     position: absolute;
     left: 250px;
     top: 60px;
-    color: #EEE; }
+    font-size: 1.1em;
+    color: black; }
   #header img {
     position: absolute;
     top: 8px;
     left: 9px; }
   #header .emp {
-    color: #FFFFFF; }
+    color: black; }
   #header .unemph {
     color: #ff6600; }
 
 #content {
-  margin: 0 auto;
+  margin: 30px auto;
   width: 900px; }
 
 #top {
@@ -85,7 +86,8 @@ ul {
       float: left;
       padding: 9px 24px;
       margin: 3px 2px 0 0;
-      color: #CCCCCC; }
+      color: black;
+      font-weight: bold; }
     #top li a.current {
       color: #FFFFFF;
       background: #cc6611; }

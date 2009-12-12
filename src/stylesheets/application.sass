@@ -3,6 +3,8 @@
   :display block
   :padding 5px 5px
 
+!dark_blue = #0C1872
+!black = #000
 !light_blue = #72b9eb
 !light_orange = #cc6611
 !bright_orange = #ff6600
@@ -71,18 +73,19 @@ ul
     position: absolute
     left: 250px
     top: 60px
-    :color #EEE
+    :font-size 1.1em
+    :color= !black
   img
     position: absolute
     top: 8px
     left: 9px
     
   .emp
-    color: #FFFFFF
+    :color= !black
   .unemph
     :color= !bright_orange
 #content
-  :margin 0 auto
+  :margin 30px auto
   :width 900px
 
 #top
@@ -95,7 +98,8 @@ ul
       :float left
       :padding 9px 24px
       :margin 3px 2px 0 0
-      :color #CCCCCC
+      :color= !black
+      :font-weight bold
     a.current
       :color #FFFFFF
       :background= !light_orange
