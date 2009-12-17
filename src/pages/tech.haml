@@ -69,6 +69,9 @@
 %p
   If either end closes their side of the socket, it prompts termination of the socket.
 
+%p
+  Note: There are two (erlang) processes spawned from this process and are active in their own space. This is how streaming on the proxy is enabled.
+
 %p.clear
   Finally, when the proxy_handler is terminated, it sends the event:
   ~code_to_syntax "?NOTIFY({bee, closing_stats, Bee, StatsProplist})", "erlang"
