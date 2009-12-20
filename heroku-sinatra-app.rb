@@ -25,7 +25,7 @@ get '/' do
       <style type="text/css">
         body {
           background: #333; 
-          color: #fff
+          color: #fff;
         }
         #content {
           margin: 30px auto;
