@@ -50,7 +50,8 @@ get '/' do
         <h1>Sweet sweet bash content</h1>
         <p>Man, bash is super powerful</p>
         <h4>Oh shoot, this reminds me</h4>
-        <h1>I need to do the <a href="http://git-scm.com/">GIT</a> stuff</h1>
+        <h2>Gitosis is super powerful too</h2>
+        <b>I need to do the <a href="http://git-scm.com/">GIT</a> stuff</b>
         <div id="footer">Footer</div>
       </div>
     </body>
