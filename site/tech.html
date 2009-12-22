@@ -111,6 +111,9 @@
         <p>
           If either end closes their side of the socket, it prompts termination of the socket.
         </p>
+        <p>
+          Note: There are two (erlang) processes spawned from this process and are active in their own space. This is how streaming on the proxy is enabled.
+        </p>
         <p class='clear'>
           Finally, when the proxy_handler is terminated, it sends the event:
           <pre class="blackboard"><span class="Keyword">?</span><span class="Entity">NOTIFY</span>({<span class="Constant">bee</span>, <span class="Constant">closing_stats</span>, <span class="Variable">Bee</span>, <span class="Variable">StatsProplist</span>})</pre>
