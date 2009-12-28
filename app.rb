@@ -2,11 +2,11 @@ require "rubygems"
 require "sinatra"
 
 get '/' do
-  open("site/index.html").read
+  open("#{File.dirname(__FILE__)}/site/index.html").read
 end
 
 get '/:path.html' do
-  open("site/#{params[:path]}.html").read
+  open("#{File.dirname(__FILE__)}/site/#{params[:path]}.html").read
 end
 
 get '/info' do
