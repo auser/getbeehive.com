@@ -19,7 +19,7 @@ get '/info' do
     <br />
     #{env}
     <br />
-    #{`ls ./../`}
+    #{`ls -l ./../`}
     #{`touch ./../etc/fancy.conf`}
   "
 end
