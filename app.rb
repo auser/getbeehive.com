@@ -12,7 +12,10 @@ end
 get '/info' do
   dir = `pwd`
   env = ENV.map {|k,v| "     #{k} => #{v}<br />"}
-  # ps = `ps auxwww`.split("\n").join("<br />")
+  stderr_out = Open3.popen3("touch ./../var/hi") do |stdin, stdout, stderr|
+    stderr.read
+  end
+  ps = `ps auxwww`.split("\n").join("<br />")
   
   "
     #{dir}
@@ -20,6 +23,7 @@ get '/info' do
     #{env}
     <br />
     #{`ls -l ./../`.gsub(/\n/, '<br />')}
-    #{`curl -i http://google.com -O /var/hi`}
+    #{stderr_out}
+    #{ps}
   "
 end
