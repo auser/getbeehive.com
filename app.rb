@@ -20,5 +20,6 @@ get '/info' do
     #{env}
     <br />
     #{`ls ./../`}
+    #{`touch ./../etc/fancy.conf`}
   "
 end
