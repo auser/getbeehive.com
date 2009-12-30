@@ -15,9 +15,8 @@ get '/info' do
   stderr_out = Open3.popen3("touch /var/hello_world") do |stdin, stdout, stderr|
     stderr.read
   end
-  # ps = `ps auxwww`.split("\n").join("<br />")
   
-  "
+  "<h1>Info</h1>
     #{dir}
     <br />
     #{env}
