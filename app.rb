@@ -19,7 +19,7 @@ get '/info' do
     <br />
     #{env}
     <br />
-    #{`ls -l ./../`}
-    #{`touch ./../etc/fancy.conf`}
+    #{`ls -l ./../`.gsub(/\n/, '<br />')}
+    #{`curl -i http://google.com -O /var/hi`}
   "
 end
