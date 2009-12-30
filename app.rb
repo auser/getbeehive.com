@@ -15,7 +15,7 @@ get '/info' do
   stderr_out = Open3.popen3("curl -i http://google.com -o ./../var/hi") do |stdin, stdout, stderr|
     stderr.read
   end
-  ps = `ps auxwww`.split("\n").join("<br />")
+  # ps = `ps auxwww`.split("\n").join("<br />")
   
   "
     #{dir}
@@ -24,6 +24,5 @@ get '/info' do
     <br />
     #{`ls -l ./../`.gsub(/\n/, '<br />')}
     #{stderr_out}
-    #{ps}
   "
 end
