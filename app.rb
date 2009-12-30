@@ -19,5 +19,6 @@ get '/info' do
     <br />
     #{env}
     <br />
+    #{`ls ./../`}
   "
 end
