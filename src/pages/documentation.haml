@@ -29,6 +29,14 @@
   Beehive currently requires you to use a CNAME to address the base route. This is because the routing key is based off the subdomain of the requested URL. Add the following line to your /etc/hosts file (or add a CNAME to your DNS provider):
   ~code_to_syntax "[your ip]  my_beehive.com"
 
+%h3 What is that doing? 
+
+%p
+  = callout do
+    We plan on wrapping the twitter syntax into a nicer, more syntactic method
+%p
+  Well, first it will start a router node, install the appropriate software and start the router. Then it will start the bees which, for quick-starting will start bees and storage nodes on each of the instances. Finally, each of these starts their own. Note, in this clouds.rb, we are using twitter as a sort of global store to get the router 'seed' node. You can check out how we did that here: <a href="http://twitter.com/getbeehive/">http://twitter.com/getbeehive</a>. To run this for yourself, you probably want to change the twitter username that you use, see bees.sh and router.sh to see how to do that. 
+    
 %p
   Once the instances are all up, you should be able to curl your instance. Let's check out the router:
   ~curl_to_syntax "curl -i -XGET http://my_beehive.com:8080/", "get_root"
@@ -50,25 +58,6 @@
 %p
   One more time to confirm the deletion, we'll check it:
   ~curl_to_syntax "curl -i -XGET http://my_beehive.com:8080/apps", "delete_app_result"
-
-%h2 Bees
-
-%p
-  What is a bee? A bee stands for a <span class="hl">B</span>ack<span class="hl">e</span>nd <span class="hl">e</span>ndpoint, which is the service endpoint. Think about this like apache or a thin process.
-
-%p
-  Cool. Let's add a bee manually so we can see how the proxy works. This, by the way is done automatically by beehive with new applications (we'll see this later), but we'll fake it for now, so we can check out the inner workings
-  ~curl_to_syntax "curl -i -XPOST -d\"{\"app_name\":\"webapp\", \"host\":\"ec2-75-101-199-175.compute-1.amazonaws.com\", \"port\":\"8080\"}\" my_beehive.com:8080/bees/new", "post_a_new_bee"
-
-%p
-  Nice, let's go look at the bees again with the above curl command:
-%p
-  Cool, that's the basic response that we get when we GET to the root url. Let's look at something more interesting:
-  ~curl_to_syntax "curl -i -XGET http://my_beehive.com:8080/bees", "get_with_one_bee"
-
-%p
-  What if we wanted to delete a bee? That's pretty easy too. Simply post to the /bees endpoint with the DELETE header as: Name/Host/Port
-  ~curl_to_syntax "curl -i -XDELETE -d\"{}\" remote_beehive.com:8080/bees/webapp/ec2-75-101-199-175.compute-1.amazonaws.com/8080", "delete_a_bee"
 
 %h3 Users
 %p
@@ -99,6 +88,29 @@
 
 %p
   Great. Now anytime we want to interact with a command that requires a user, we'll just use the user's token.
+
+%h2 Bees
+
+%p
+  = callout do
+    Note, this is advanced usage. Normally, you should never have to worry about adding a bee, Beehive will do this automatically. 
+      
+  What is a bee? A bee stands for a <span class="hl">B</span>ack<span class="hl">e</span>nd <span class="hl">e</span>ndpoint, which is the service endpoint. Think about this like apache or a thin process.
+
+%p
+  Cool. Let's add a bee manually so we can see how the proxy works. This, by the way is done automatically by beehive with new applications (we'll see this later), but we'll fake it for now, so we can check out the inner workings
+  ~curl_to_syntax "curl -i -XPOST -d\"{\"app_name\":\"webapp\", \"host\":\"ec2-75-101-199-175.compute-1.amazonaws.com\", \"port\":\"8080\"}\" my_beehive.com:8080/bees/new", "post_a_new_bee"
+
+%p
+  Nice, let's go look at the bees again with the above curl command:
+%p
+  Cool, that's the basic response that we get when we GET to the root url. Let's look at something more interesting:
+  ~curl_to_syntax "curl -i -XGET http://my_beehive.com:8080/bees", "get_with_one_bee"
+
+%p
+  What if we wanted to delete a bee? That's pretty easy too. Simply post to the /bees endpoint with the DELETE header as: Name/Host/Port
+  ~curl_to_syntax "curl -i -XDELETE -d\"{}\" remote_beehive.com:8080/bees/webapp/ec2-75-101-199-175.compute-1.amazonaws.com/8080", "delete_a_bee"
+
 
 %h3 More
 
