@@ -57,6 +57,18 @@
           Beehive currently requires you to use a CNAME to address the base route. This is because the routing key is based off the subdomain of the requested URL. Add the following line to your /etc/hosts file (or add a CNAME to your DNS provider):
           <pre class="blackboard">[your ip]  my_beehive.com</pre>
         </p>
+        <h3>What is that doing?</h3>
+        <p>
+          <div class='callout-box'>
+              <div class='callout-content'>
+              
+              <div class='callout-wrapper'><img src='/images/site/small_hive.png' class='callout_image'/></div>
+              We plan on wrapping the twitter syntax into a nicer, more syntactic method</div>
+              </div>
+        </p>
+        <p>
+          Well, first it will start a router node, install the appropriate software and start the router. Then it will start the bees which, for quick-starting will start bees and storage nodes on each of the instances. Finally, each of these starts their own. Note, in this clouds.rb, we are using twitter as a sort of global store to get the router 'seed' node. You can check out how we did that here: <a href="http://twitter.com/getbeehive/">http://twitter.com/getbeehive</a>. To run this for yourself, you probably want to change the twitter username that you use, see bees.sh and router.sh to see how to do that.
+        </p>
         <p>
           Once the instances are all up, you should be able to curl your instance. Let's check out the router:
           <pre class="blackboard">$<span class="Keyword">&gt;</span> curl -i -XGET http://my_beehive.com:8080/&#x000A;&#x000A;HTTP/1.1 200 OK&#x000A;Server: MochiWeb/1.0 (Any of you quaids got a smint?)&#x000A;Date: Thu, 10 Dec 2009 00:32:32 GMT&#x000A;Content-Type: text/json&#x000A;Content-Length: 36&#x000A;&#x000A;{<span class="String"><span class="String">&quot;</span>beehive<span class="String">&quot;</span></span>:<span class="String"><span class="String">&quot;</span>app, node, bees, stats<span class="String">&quot;</span></span>}</pre>
@@ -76,25 +88,6 @@
         <p>
           One more time to confirm the deletion, we'll check it:
           <pre class="blackboard">$<span class="Keyword">&gt;</span> curl -i -XGET http://my_beehive.com:8080/apps&#x000A;&#x000A;HTTP/1.1 200 OK&#x000A;Server: MochiWeb/1.0 (Any of you quaids got a smint?)&#x000A;Date: Thu, 10 Dec 2009 02:56:28 GMT&#x000A;Content-Type: text/json&#x000A;Content-Length: 11&#x000A;&#x000A;{<span class="String"><span class="String">&quot;</span>apps<span class="String">&quot;</span></span>:[]}</pre>
-        </p>
-        <h2>Bees</h2>
-        <p>
-          What is a bee? A bee stands for a <span class="hl">B</span>ack<span class="hl">e</span>nd <span class="hl">e</span>ndpoint, which is the service endpoint. Think about this like apache or a thin process.
-        </p>
-        <p>
-          Cool. Let's add a bee manually so we can see how the proxy works. This, by the way is done automatically by beehive with new applications (we'll see this later), but we'll fake it for now, so we can check out the inner workings
-          <pre class="blackboard">$<span class="Keyword">&gt;</span> curl -i -XPOST -d<span class="String"><span class="String">&quot;</span>{<span class="String">&quot;</span></span>app_name<span class="String"><span class="String">&quot;</span>:<span class="String">&quot;</span></span>webapp<span class="String"><span class="String">&quot;</span>, <span class="String">&quot;</span></span>host<span class="String"><span class="String">&quot;</span>:<span class="String">&quot;</span></span>ec2-75-101-199-175.compute-1.amazonaws.com<span class="String"><span class="String">&quot;</span>, <span class="String">&quot;</span></span>port<span class="String"><span class="String">&quot;</span>:<span class="String">&quot;</span></span>8080<span class="String"><span class="String">&quot;</span>}<span class="String">&quot;</span></span> my_beehive.com:8080/bees/new&#x000A;&#x000A;HTTP/1.1 200 OK&#x000A;Server: MochiWeb/1.0 (Any of you quaids got a smint?)&#x000A;Date: Thu, 10 Dec 2009 00:50:25 GMT&#x000A;Content-Type: text/json&#x000A;Content-Length: 30&#x000A;&#x000A;{<span class="String"><span class="String">&quot;</span>message<span class="String">&quot;</span></span>:<span class="String"><span class="String">&quot;</span>Added bee webapp<span class="String">&quot;</span></span>}</pre>
-        </p>
-        <p>
-          Nice, let's go look at the bees again with the above curl command:
-        </p>
-        <p>
-          Cool, that's the basic response that we get when we GET to the root url. Let's look at something more interesting:
-          <pre class="blackboard">$<span class="Keyword">&gt;</span> curl -i -XGET http://my_beehive.com:8080/bees&#x000A;&#x000A;HTTP/1.1 200 OK&#x000A;Server: MochiWeb/1.0 (Any of you quaids got a smint?)&#x000A;Date: Thu, 10 Dec 2009 00:36:25 GMT&#x000A;Content-Type: text/json&#x000A;Content-Length: 139&#x000A;&#x000A;{<span class="String"><span class="String">&quot;</span>bees<span class="String">&quot;</span></span>: [{<span class="String"><span class="String">&quot;</span>app_name<span class="String">&quot;</span></span>:<span class="String"><span class="String">&quot;</span>webapp<span class="String">&quot;</span></span>,<span class="String"><span class="String">&quot;</span>host<span class="String">&quot;</span></span>:<span class="String"><span class="String">&quot;</span>ec2-75-101-199-175.compute-1.amazonaws.com<span class="String">&quot;</span></span>,<span class="String"><span class="String">&quot;</span>port<span class="String">&quot;</span></span>:<span class="String"><span class="String">&quot;</span>8080<span class="String">&quot;</span></span>,<span class="String"><span class="String">&quot;</span>meta data<span class="String">&quot;</span></span>:<span class="String"><span class="String">&quot;</span>undefined<span class="String">&quot;</span></span>,<span class="String"><span class="String">&quot;</span>status<span class="String">&quot;</span></span>:<span class="String"><span class="String">&quot;</span>ready<span class="String">&quot;</span></span>}]}</pre>
-        </p>
-        <p>
-          What if we wanted to delete a bee? That's pretty easy too. Simply post to the /bees endpoint with the DELETE header as: Name/Host/Port
-          <pre class="blackboard">$<span class="Keyword">&gt;</span> curl -i -XDELETE -d<span class="String"><span class="String">&quot;</span>{}<span class="String">&quot;</span></span> remote_beehive.com:8080/bees/webapp/ec2-75-101-199-175.compute-1.amazonaws.com/8080&#x000A;&#x000A;HTTP/1.1 200 OK&#x000A;Server: MochiWeb/1.0 (Any of you quaids got a smint?)&#x000A;Date: Thu, 10 Dec 2009 23:40:02 GMT&#x000A;Content-Type: text/json&#x000A;Content-Length: 13&#x000A;&#x000A;<span class="String"><span class="String">&quot;</span>Deleted bee<span class="String">&quot;</span></span></pre>
         </p>
         <h3>Users</h3>
         <p>
@@ -129,6 +122,31 @@
         </p>
         <p>
           Great. Now anytime we want to interact with a command that requires a user, we'll just use the user's token.
+        </p>
+        <h2>Bees</h2>
+        <p>
+          <div class='callout-box'>
+              <div class='callout-content'>
+              
+              <div class='callout-wrapper'><img src='/images/site/small_hive.png' class='callout_image'/></div>
+              Note, this is advanced usage. Normally, you should never have to worry about adding a bee, Beehive will do this automatically.</div>
+              </div>
+          What is a bee? A bee stands for a <span class="hl">B</span>ack<span class="hl">e</span>nd <span class="hl">e</span>ndpoint, which is the service endpoint. Think about this like apache or a thin process.
+        </p>
+        <p>
+          Cool. Let's add a bee manually so we can see how the proxy works. This, by the way is done automatically by beehive with new applications (we'll see this later), but we'll fake it for now, so we can check out the inner workings
+          <pre class="blackboard">$<span class="Keyword">&gt;</span> curl -i -XPOST -d<span class="String"><span class="String">&quot;</span>{<span class="String">&quot;</span></span>app_name<span class="String"><span class="String">&quot;</span>:<span class="String">&quot;</span></span>webapp<span class="String"><span class="String">&quot;</span>, <span class="String">&quot;</span></span>host<span class="String"><span class="String">&quot;</span>:<span class="String">&quot;</span></span>ec2-75-101-199-175.compute-1.amazonaws.com<span class="String"><span class="String">&quot;</span>, <span class="String">&quot;</span></span>port<span class="String"><span class="String">&quot;</span>:<span class="String">&quot;</span></span>8080<span class="String"><span class="String">&quot;</span>}<span class="String">&quot;</span></span> my_beehive.com:8080/bees/new&#x000A;&#x000A;HTTP/1.1 200 OK&#x000A;Server: MochiWeb/1.0 (Any of you quaids got a smint?)&#x000A;Date: Thu, 10 Dec 2009 00:50:25 GMT&#x000A;Content-Type: text/json&#x000A;Content-Length: 30&#x000A;&#x000A;{<span class="String"><span class="String">&quot;</span>message<span class="String">&quot;</span></span>:<span class="String"><span class="String">&quot;</span>Added bee webapp<span class="String">&quot;</span></span>}</pre>
+        </p>
+        <p>
+          Nice, let's go look at the bees again with the above curl command:
+        </p>
+        <p>
+          Cool, that's the basic response that we get when we GET to the root url. Let's look at something more interesting:
+          <pre class="blackboard">$<span class="Keyword">&gt;</span> curl -i -XGET http://my_beehive.com:8080/bees&#x000A;&#x000A;HTTP/1.1 200 OK&#x000A;Server: MochiWeb/1.0 (Any of you quaids got a smint?)&#x000A;Date: Thu, 10 Dec 2009 00:36:25 GMT&#x000A;Content-Type: text/json&#x000A;Content-Length: 139&#x000A;&#x000A;{<span class="String"><span class="String">&quot;</span>bees<span class="String">&quot;</span></span>: [{<span class="String"><span class="String">&quot;</span>app_name<span class="String">&quot;</span></span>:<span class="String"><span class="String">&quot;</span>webapp<span class="String">&quot;</span></span>,<span class="String"><span class="String">&quot;</span>host<span class="String">&quot;</span></span>:<span class="String"><span class="String">&quot;</span>ec2-75-101-199-175.compute-1.amazonaws.com<span class="String">&quot;</span></span>,<span class="String"><span class="String">&quot;</span>port<span class="String">&quot;</span></span>:<span class="String"><span class="String">&quot;</span>8080<span class="String">&quot;</span></span>,<span class="String"><span class="String">&quot;</span>meta data<span class="String">&quot;</span></span>:<span class="String"><span class="String">&quot;</span>undefined<span class="String">&quot;</span></span>,<span class="String"><span class="String">&quot;</span>status<span class="String">&quot;</span></span>:<span class="String"><span class="String">&quot;</span>ready<span class="String">&quot;</span></span>}]}</pre>
+        </p>
+        <p>
+          What if we wanted to delete a bee? That's pretty easy too. Simply post to the /bees endpoint with the DELETE header as: Name/Host/Port
+          <pre class="blackboard">$<span class="Keyword">&gt;</span> curl -i -XDELETE -d<span class="String"><span class="String">&quot;</span>{}<span class="String">&quot;</span></span> remote_beehive.com:8080/bees/webapp/ec2-75-101-199-175.compute-1.amazonaws.com/8080&#x000A;&#x000A;HTTP/1.1 200 OK&#x000A;Server: MochiWeb/1.0 (Any of you quaids got a smint?)&#x000A;Date: Thu, 10 Dec 2009 23:40:02 GMT&#x000A;Content-Type: text/json&#x000A;Content-Length: 13&#x000A;&#x000A;<span class="String"><span class="String">&quot;</span>Deleted bee<span class="String">&quot;</span></span></pre>
         </p>
         <h3>More</h3>
         <p>
