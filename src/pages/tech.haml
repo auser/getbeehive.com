@@ -109,6 +109,10 @@
   %h3 Storage
 
 %p
+  = callout do
+    Beehive *may* get a primary git server, but currently relies on others, such as <a href="http://github.com">http://github.com</a>
+
+%p
   The storage layer is where the bee's code is queried. When the app_manager needs to deploy a new application, it calls the bh_storage_srv to update the bee. 
 
 %p
