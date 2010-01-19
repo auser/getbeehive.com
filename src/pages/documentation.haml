@@ -51,11 +51,6 @@
   ~curl_to_syntax "curl -i -XGET http://my_beehive.com:8080/apps", "get_demo_apps"
 
 %p
-  You'll notice that there is a single app registered in the beehive from the start. This is done to show a demo application. Most likely, you'll want to blow this application away. This can be done with, like every other action with a curl:
-  
-  ~curl_to_syntax "curl -i -XDELETE -d\"{}\" my_beehive.com:8080/apps/webapp", "delete_app"
-
-%p
   One more time to confirm the deletion, we'll check it:
   ~curl_to_syntax "curl -i -XGET http://my_beehive.com:8080/apps", "delete_app_result"
 
@@ -76,7 +71,7 @@
   
 %p
   The auth controller gives us back a generated token in the response. Now, we'll use that token in the future to interact with the beehive. So let's try it out. Let's add a new user at the administrator level (level 1).
-  ~curl_to_syntax "curl -i -XPOST -d\"{\"email\":\"arilerner@mac.com\", \"password\":\"test\", \"level\":\"1\", \"token\":\"4de2c4cb3e8716c829072c4a19d53c05\"}\" http://my_beehive.com:8080/users/new", "add_a_user"
+  ~curl_to_syntax "curl -i -XPOST -d\"{\"email\":\"arilerner@mac.com\", \"password\":\"test\", \"level\":\"1\", \"token\":\"4de2c4cb3e8716c829072c4a19d53c05\"}\" http://my_beehive.com:8080/users", "add_a_user"
 
 %p
   Sweet, it looks like it worked. Let's make sure by checking our users now
@@ -89,6 +84,9 @@
 %p
   Great. Now anytime we want to interact with a command that requires a user, we'll just use the user's token.
 
+%p
+  Awesome, let's add an application now.
+
 %h2 Bees
 
 %p
@@ -99,7 +97,7 @@
 
 %p
   Cool. Let's add a bee manually so we can see how the proxy works. This, by the way is done automatically by beehive with new applications (we'll see this later), but we'll fake it for now, so we can check out the inner workings
-  ~curl_to_syntax "curl -i -XPOST -d\"{\"app_name\":\"webapp\", \"host\":\"ec2-75-101-199-175.compute-1.amazonaws.com\", \"port\":\"8080\"}\" my_beehive.com:8080/bees/new", "post_a_new_bee"
+  ~curl_to_syntax "curl -i -XPOST -d\"{\"app_name\":\"webapp\", \"host\":\"ec2-75-101-199-175.compute-1.amazonaws.com\", \"port\":\"8080\"}\" my_beehive.com:8080/bees", "post_a_new_bee"
 
 %p
   Nice, let's go look at the bees again with the above curl command:
