@@ -1,32 +1,18 @@
-%pre .idle .TypeName {
-  color: #21439C; }
-%pre .idle .Number {
-  color: #111; }
-%pre .idle .LibraryVariable {
-  color: #A535AE; }
-%pre .idle .Storage {
-  color: #FF5600; }
-%pre .idle .line-numbers {
-  background-color: #BAD6FD;
-  color: #000000; }
-%pre .idle .StringInterpolation {
-  color: #990000; }
-%pre .idle .LibraryConstant {
-  color: #A535AE; }
-%pre .idle .BuiltInConstant {
-  color: #A535AE; }
-%pre .idle .Invalid {
-  background-color: #990000;
-  color: #FFFFFF; }
-%pre .idle .LibraryClassType {
-  color: #A535AE; }
-%pre .idle .LibraryFunction {
-  color: #A535AE; }
-%pre .idle .Keyword {
-  color: #FF5600; }
-%pre .idle .String {
-  color: #00A33F; }
-%pre .idle .FunctionName {
-  color: #21439C; }
-%pre .idle .Comment {
-  color: #919191; }
+<html>
+  <head>
+    <style type='text/css'>
+      body { font-family: helvetica, verdana, arial; font-size: 10pt;}
+    </style>
+  </head>
+  <body>
+    <h1>
+      StaticMatic::TemplateError
+      in
+      /Users/alerner/Sites/getbeehive.com/src/stylesheets/idle.sass
+    </h1>
+    <p>Invalid CSS after "": expected selector, was "%pre"</p>
+    1: %pre<br/>2:   .idle<br/>3:     .TypeName<br/>4:       color: #21439C<br/>
+    <h2>Backtrace</h2>
+    (sass):1<br/>/Users/alerner/.gem/ruby/1.8/gems/haml-3.0.2/lib/sass/scss/parser.rb:782:in `expected'<br/>/Users/alerner/.gem/ruby/1.8/gems/haml-3.0.2/lib/sass/scss/parser.rb:757:in `expected'<br/>/Users/alerner/.gem/ruby/1.8/gems/haml-3.0.2/lib/sass/scss/parser.rb:740:in `expr!'<br/>/Users/alerner/.gem/ruby/1.8/gems/haml-3.0.2/lib/sass/scss/static_parser.rb:20:in `parse_selector'<br/>/Users/alerner/.gem/ruby/1.8/gems/haml-3.0.2/lib/sass/tree/rule_node.rb:186:in `perform!'<br/>/Users/alerner/.gem/ruby/1.8/gems/haml-3.0.2/lib/sass/tree/node.rb:301:in `_perform'<br/>/Users/alerner/.gem/ruby/1.8/gems/haml-3.0.2/lib/sass/tree/node.rb:209:in `perform'<br/>/Users/alerner/.gem/ruby/1.8/gems/haml-3.0.2/lib/sass/tree/node.rb:322:in `perform_children'<br/>/Users/alerner/.gem/ruby/1.8/gems/haml-3.0.2/lib/sass/tree/node.rb:322:in `map'<br/>/Users/alerner/.gem/ruby/1.8/gems/haml-3.0.2/lib/sass/tree/node.rb:322:in `perform_children'<br/>/Users/alerner/.gem/ruby/1.8/gems/haml-3.0.2/lib/sass/tree/node.rb:313:in `perform!'<br/>/Users/alerner/.gem/ruby/1.8/gems/haml-3.0.2/lib/sass/tree/root_node.rb:59:in `perform!'<br/>/Users/alerner/.gem/ruby/1.8/gems/haml-3.0.2/lib/sass/tree/node.rb:301:in `_perform'<br/>/Users/alerner/.gem/ruby/1.8/gems/haml-3.0.2/lib/sass/tree/node.rb:209:in `perform'<br/>/Users/alerner/.gem/ruby/1.8/gems/haml-3.0.2/lib/sass/tree/root_node.rb:37:in `perform'<br/>/Users/alerner/.gem/ruby/1.8/gems/haml-3.0.2/lib/sass/tree/root_node.rb:29:in `render'<br/>/Users/alerner/.gem/ruby/1.8/gems/haml-3.0.2/lib/sass/engine.rb:159:in `to_css'<br/>/Users/alerner/.gem/ruby/1.8/gems/staticmatic-0.10.8/bin/../lib/staticmatic/mixins/render.rb:81:in `generate_css'<br/>/Users/alerner/.gem/ruby/1.8/gems/staticmatic-0.10.8/bin/../lib/staticmatic/mixins/build.rb:23:in `build_css'<br/>/Users/alerner/.gem/ruby/1.8/gems/staticmatic-0.10.8/bin/../lib/staticmatic/mixins/build.rb:19:in `each'<br/>/Users/alerner/.gem/ruby/1.8/gems/staticmatic-0.10.8/bin/../lib/staticmatic/mixins/build.rb:19:in `build_css'<br/>/Users/alerner/.gem/ruby/1.8/gems/staticmatic-0.10.8/bin/../lib/staticmatic/mixins/build.rb:4:in `build'<br/>/Users/alerner/.gem/ruby/1.8/gems/staticmatic-0.10.8/bin/../lib/staticmatic/base.rb:60:in `send'<br/>/Users/alerner/.gem/ruby/1.8/gems/staticmatic-0.10.8/bin/../lib/staticmatic/base.rb:60:in `run'<br/>/Users/alerner/.gem/ruby/1.8/gems/staticmatic-0.10.8/bin/staticmatic:23<br/>/Users/alerner/.gem/ruby/1.8/bin/staticmatic:19:in `load'<br/>/Users/alerner/.gem/ruby/1.8/bin/staticmatic:19
+  </body>
+</html>

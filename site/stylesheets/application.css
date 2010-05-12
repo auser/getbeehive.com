@@ -1,7 +1,7 @@
 body {
-  font: 0.9em "Trebuchet MS",Verdana,Arial,sans-serif;
+  font: 0.9em "Trebuchet MS", Verdana, Arial, sans-serif;
   margin: 0 auto;
-  background: #EEE;
+  background: #eeeeee;
   font-size: 14px;
   line-height: 1.6; }
 
@@ -22,14 +22,14 @@ h2 {
   font-weight: normal;
   margin: 0 0 20px; }
   h2 a:hover {
-    background: #A82A15;
-    color: #FFF; }
+    background: #a82a15;
+    color: white; }
 
 hr {
   border: none;
   height: 1px;
   line-height: 1px;
-  background: #CCC;
+  background: #cccccc;
   margin-bottom: 20px;
   padding: 0; }
 
@@ -43,7 +43,7 @@ pre {
   padding: 0;
   width: 100%;
   overflow: auto;
-  background: #333; }
+  background: #333333; }
 
 dl {
   padding: 0;
@@ -62,8 +62,8 @@ ul {
 
 #header {
   height: 200px;
-  background: #FFFFFF url("/images/site/bg2.gif") repeat-x;
-  color: #333;
+  background: white url("/images/site/bg2.gif") repeat-x;
+  color: #333333;
   position: relative; }
   #header h1 {
     position: absolute;
@@ -88,8 +88,8 @@ ul {
   width: 900px;
   margin: 50px auto;
   padding: 20px;
-  background: #FFF;
-  border: 1px solid #CCC; }
+  background: white;
+  border: 1px solid #cccccc; }
 
 #top {
   float: right;
@@ -104,18 +104,18 @@ ul {
       color: black;
       font-weight: bold; }
     #top li a.current {
-      color: #FFFFFF;
+      color: white;
       background: #cc6611; }
     #top li a:hover {
       background: #ff6600;
-      color: #FFF; }
+      color: white; }
 
 #intro {
   clear: both;
   padding: 15px;
   border: 1px solid #dedede;
   font-size: 1.3em;
-  background: #eee;
+  background: #eeeeee;
   margin: 10px 0 30px; }
 
 #left {
@@ -132,11 +132,11 @@ ul {
   float: right;
   width: 350px; }
   #right h3 {
-    border-bottom: 1px solid #CCCCCC;
+    border-bottom: 1px solid #cccccc;
     margin: 20px 0 10px; }
   #right img {
     margin: 0 3px 3px 0;
-    border: 2px solid #eee;
+    border: 2px solid #eeeeee;
     padding: 2px; }
   #right ul {
     list-style: none;
@@ -149,18 +149,18 @@ ul {
         display: block;
         padding: 5px 5px; }
       #right ul li a:hover {
-        background: #eee; }
+        background: #eeeeee; }
 
 #footer {
   clear: both;
   padding: 15px 0;
-  border-top: 1px solid #CCC;
+  border-top: 1px solid #cccccc;
   background: right 0 url("/images/site/bee_boxes.gif") no-repeat;
   height: 180px; }
 
 #node, #router, #storage {
-  border-top: 1px solid #333;
-  border-bottom: 1px solid #333;
+  border-top: 1px solid #333333;
+  border-bottom: 1px solid #333333;
   border-color: #72b9eb; }
   #node h3, #router h3, #storage h3 {
     margin: 15px 0;
@@ -170,7 +170,7 @@ ul {
   color: #ddaa11; }
 
 .unemph {
-  color: #FFF; }
+  color: white; }
 
 .clear {
   clear: both; }
@@ -181,8 +181,8 @@ ul {
   text-decoration: underline; }
 
 .term {
-  border-bottom: 1px solid #bbb;
-  border-top: 1px solid #bbb;
+  border-bottom: 1px solid #bbbbbb;
+  border-top: 1px solid #bbbbbb;
   padding: 6px 0;
   margin: 6px 0; }
 
@@ -194,7 +194,7 @@ ul {
 
 .doc_image {
   float: right;
-  border: 1px solid #bbb;
+  border: 1px solid #bbbbbb;
   margin: 5px;
   padding: 4px;
   width: 160px; }
@@ -202,7 +202,7 @@ ul {
 .callout-box {
   float: right;
   width: 200px;
-  background-color: #F2FBFF;
+  background-color: #f2fbff;
   border: 4px solid #72b9eb;
   padding: 5px 5px;
   margin: 8px; }
@@ -212,14 +212,14 @@ ul {
     left: -10px;
     font-size: 1.1em;
     width: 80%;
-    background: #fff; }
+    background: white; }
   .callout-box .callout_image {
     position: relative;
     top: -25px;
     left: 10px;
     width: 50px; }
   .callout-box .callout-content {
-    background: #F2FBFF; }
+    background: #f2fbff; }
   .callout-box .callout-wrapper {
     height: 1px;
     position: relative;
