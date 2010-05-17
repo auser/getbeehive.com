@@ -1,18 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
   <head>
-    <style type='text/css'>
-      body { font-family: helvetica, verdana, arial; font-size: 10pt;}
-    </style>
+    <meta content='text/html;charset=utf-8' http-equiv='Content-Type' />
+    <meta content='Ari Lerner' name='author' />
+    <title>Beehive - A swarm of applications</title>
+    <link href="stylesheets/application.css" media="all" rel="stylesheet" type="text/css"/><link href="stylesheets/blackboard.css" media="all" rel="stylesheet" type="text/css"/><link href="stylesheets/idle.css" media="all" rel="stylesheet" type="text/css"/><link href="stylesheets/reset.css" media="all" rel="stylesheet" type="text/css"/><link href="stylesheets/sunburst.css" media="all" rel="stylesheet" type="text/css"/>
+    <meta content='text/html;charset=utf-8' http-equiv='Content-Type' />
+    <meta content='Ari Lerner' name='author' />
+    <meta content='Dynamic, highly scalable web application router and bee mesh from getbeehive.com' name='description' />
+    <script type='text/javascript'>var _gaq = _gaq || [];_gaq.push(['_setAccount', 'UA-8105436-7']);_gaq.push(['_trackPageview']);
+    (function() { var ga = document.createElement('script');  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';  ga.setAttribute('async', 'true');  document.documentElement.firstChild.appendChild(ga);})();</script>
   </head>
   <body>
-    <h1>
-      StaticMatic::TemplateError
-      in
-      /Users/alerner/Sites/getbeehive.com/src/pages/sitemap.haml
-    </h1>
-    <p>Illegal nesting: nesting within plain text is illegal.</p>
-    11: <br/>12: == Sweet!<br/>13: h3. awesome<br/>14:   what?<br/>
-    <h2>Backtrace</h2>
-    (haml):14<br/>/Users/alerner/.gem/ruby/1.8/gems/haml-3.0.2/lib/haml/precompiler.rb:355:in `push_plain'<br/>/Users/alerner/.gem/ruby/1.8/gems/haml-3.0.2/lib/haml/precompiler.rb:279:in `process_line'<br/>/Users/alerner/.gem/ruby/1.8/gems/haml-3.0.2/lib/haml/precompiler.rb:178:in `precompile'<br/>/Users/alerner/.gem/ruby/1.8/gems/haml-3.0.2/lib/haml/engine.rb:116:in `initialize'<br/>/Users/alerner/.gem/ruby/1.8/gems/staticmatic-0.10.8/bin/../lib/staticmatic/mixins/render.rb:96:in `new'<br/>/Users/alerner/.gem/ruby/1.8/gems/staticmatic-0.10.8/bin/../lib/staticmatic/mixins/render.rb:96:in `generate_html_from_template_source'<br/>/Users/alerner/.gem/ruby/1.8/gems/staticmatic-0.10.8/bin/../lib/staticmatic/mixins/render.rb:21:in `generate_html'<br/>/Users/alerner/.gem/ruby/1.8/gems/staticmatic-0.10.8/bin/../lib/staticmatic/mixins/render.rb:37:in `generate_html_with_layout'<br/>/Users/alerner/.gem/ruby/1.8/gems/staticmatic-0.10.8/bin/../lib/staticmatic/mixins/build.rb:13:in `build_html'<br/>/Users/alerner/.gem/ruby/1.8/gems/staticmatic-0.10.8/bin/../lib/staticmatic/mixins/build.rb:10:in `each'<br/>/Users/alerner/.gem/ruby/1.8/gems/staticmatic-0.10.8/bin/../lib/staticmatic/mixins/build.rb:10:in `build_html'<br/>/Users/alerner/.gem/ruby/1.8/gems/staticmatic-0.10.8/bin/../lib/staticmatic/mixins/build.rb:5:in `build'<br/>/Users/alerner/.gem/ruby/1.8/gems/staticmatic-0.10.8/bin/../lib/staticmatic/base.rb:60:in `send'<br/>/Users/alerner/.gem/ruby/1.8/gems/staticmatic-0.10.8/bin/../lib/staticmatic/base.rb:60:in `run'<br/>/Users/alerner/.gem/ruby/1.8/gems/staticmatic-0.10.8/bin/staticmatic:23<br/>/Users/alerner/.gem/ruby/1.8/bin/staticmatic:19:in `load'<br/>/Users/alerner/.gem/ruby/1.8/bin/staticmatic:19
+    <div id='header'>
+      <a href='/'>
+        <!-- %img{:src => "/images/logo2.png", :height => "180"} -->
+        <!-- %img{:src => "/images/logo1.png", :height => "180"} -->
+        <img height='180' src='/images/site/logo3.png' />
+        <h1>
+          <span class="emp">Bee</span><span class="unemph">hive</span>
+        </h1>
+        <h4>
+          A swarm of applications
+        </h4>
+      </a>
+      <div id='top'>
+        <ul>
+          <li class="first"><a href="index.html">Home</a></li>
+          <li><a href="documentation.html">Documentation</a></li>
+          <li class="last"><a href="community.html">Community</a></li>
+        </ul>
+      </div>
+    </div>
+    <div id='content'>
+      <div id='intro'>
+        This is an <a href="#">alpha</a> release of beehive. Submit an <a href="https://github.com/auser/beehive/issues">issue</a> if you encounter a bug or head on over to the <a href="irc:///irc.freenode.net">freenode</a> room to share your findings.
+      </div>
+      <div class='clear'></div>
+      <div id='left'>
+        links
+        go
+        here
+        I
+        think
+        hrm
+        what
+        do
+        you
+        think?
+        Sweet!
+        h3. awesome
+        what?
+      </div>
+      <div id='right'>
+        <h3>Quickstart</h3>
+        <pre class="blackboard">git clone http://github.com/auser/beehive.git&#x000A;cloud start -c config/clouds.rb</pre>
+        <h3>Links</h3>
+        <ul>
+          <li class="first"><a href="http://github.com/auser/beehive">Github</a></li>
+          <li class="last"><a href="http://github.com/auser/beehive/wikis">Wiki</a></li>
+        </ul>
+      </div>
+      <div class='clear'>&nbsp;</div>
+      <div id='footer'>
+        Beehive, Copyright Ari Lerner 2010
+      </div>
+    </div>
   </body>
 </html>
