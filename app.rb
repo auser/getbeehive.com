@@ -6,7 +6,12 @@ get '/' do
 end
 
 get '/:path.html' do
-  open("#{File.dirname(__FILE__)}/site/#{params[:path]}.html").read
+  path_dir = if File.exist?("#{File.dirname(__FILE__)}/#{params[:path]}.html")
+    ""
+  else
+    "site/"
+  end
+  open("#{File.dirname(__FILE__)}/#{path_head}#{params[:path]}.html").read
 end
 
 get '/info' do
