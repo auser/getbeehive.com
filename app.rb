@@ -11,7 +11,7 @@ get '/:path.html' do
   else
     "site/"
   end
-  open("#{File.dirname(__FILE__)}/#{path_head}#{params[:path]}.html").read
+  open("#{File.dirname(__FILE__)}/#{path_dir}#{params[:path]}.html").read
 end
 
 get '/info' do
