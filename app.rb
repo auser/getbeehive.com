@@ -5,7 +5,7 @@ get '/' do
   open("#{File.dirname(__FILE__)}/site/index.html").read
 end
 
-get '/new' do
+get '/_new' do
   redirect '/new'
 end
 
