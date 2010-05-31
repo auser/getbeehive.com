@@ -5,6 +5,10 @@ get '/' do
   open("#{File.dirname(__FILE__)}/site/index.html").read
 end
 
+get '/new' do
+  open("#{File.dirname(__FILE__)}/new/index.html").read
+end
+
 get '/:path.html' do
   path_dir = if File.exist?("#{File.dirname(__FILE__)}/#{params[:path]}.html")
     ""
