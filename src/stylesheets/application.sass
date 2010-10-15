@@ -3,12 +3,12 @@
   :display block
   :padding 5px 5px
 
-!dark_blue = #0C1872
-!black = #000
-!light_blue = #72b9eb
-!light_orange = #cc6611
-!bright_orange = #ff6600
-!orange = #ff1100
+$dark_blue: #0C1872
+$black: #000
+$light_blue: #72b9eb
+$light_orange: #cc6611
+$bright_orange: #ff6600
+$orange: #ff1100
 
 body
   :font 0.9em "Trebuchet MS",Verdana,Arial,sans-serif
@@ -18,7 +18,7 @@ body
   :line-height 1.6
 
 a
-  :color= !orange
+  :color $orange
   :text-decoration none
 
 img
@@ -87,16 +87,16 @@ ul
     left: 250px
     top: 60px
     :font-size 1.1em
-    :color= !black
+    :color $black
   img
     position: absolute
     top: 8px
     left: 9px
     
   .emp
-    :color= !black
+    :color $black
   .unemph
-    :color= !bright_orange
+    :color $bright_orange
 
 #content
   :margin 30px auto
@@ -116,13 +116,13 @@ ul
       :float left
       :padding 9px 24px
       :margin 3px 2px 0 0
-      :color= !black
+      :color $black
       :font-weight bold
     a.current
       :color #FFFFFF
-      :background= !light_orange
+      :background $light_orange
     a:hover
-      :background= !bright_orange
+      :background $bright_orange
       :color #FFF
 
 #intro
@@ -175,7 +175,7 @@ ul
 #node, #router, #storage
   :border-top 1px solid #333
   :border-bottom 1px solid #333
-  :border-color= !light_blue
+  :border-color $light_blue
   h3
     :margin 15px 0
     :padding 5px 10px
