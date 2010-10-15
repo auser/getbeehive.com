@@ -1,0 +1,39 @@
+- content_for :head do
+  %title Beehive - a swarm of applications
+
+#billboard
+  <img alt="Easy application deployment" height="325" src="/images/site/banner2.png" width="820">
+#what.banner
+  .description
+    %h2 Bee... What?
+    %p Beehive is an <em>open-source solution</em> to complicated application deployment stacks. Beehive is stable, and scalable; it's written in <strong>Erlang & Ruby.</strong> Beehive provides a distributed router that sits in front of a mesh of client instances. Did we mention deployments are as easy as pushing your repository?
+  .callout
+    <img alt="Beehive is a distributed application deployment" src="/images/icons/application2.png" width="400px">
+  .divider
+  
+  #app_templates.banner
+    .description
+      %h2 Application agnostic
+      %p
+        Beehive makes it easy to describe an application deployment environment in the familiar language of <a href="http://en.wikipedia.org/wiki/Shell_script">shell script</a>. By default, the beehive includes support for <a href="http://rack.rubyforge.org/">Rack</a> and <a href="http://rubyonrails.org/">Ruby on Rails</a>, while support for <a href="http://www.java.com/">Java</a> is coming soon.
+    .callout
+      <img alt="Application templates" src="/images/icons/apps.png" width="253px">
+    .divider
+
+#distributed.banner
+  .description
+    %h2 Distributed
+    %p
+      From the ground-up, Beehive has been designed to be fault tolerant and distributed. This means that beehive will work the same on one server as it will on 100. Written primarily in <a href="http://www.erlang.org/">Erlang</a>, Beehive is natively scalable.
+  .callout
+    <img alt="Integrated" src="/images/icons/distributed.png" width="302px" />
+  .divider
+  
+#open_source.banner
+  .description
+    %h2 Open-source
+    %p
+      Beehive is 100% open-source software and has a growing community. It supports the open-source community and was written to work on any hardware. It's extensible and modular.
+  .callout
+    <img alt="Beehive is a distributed application deployment" src="/images/icons/open-source.png" width="400px">
+  .divider

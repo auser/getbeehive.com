@@ -1,0 +1,141 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	background: transparent;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+
+/* remember to define focus styles! */
+:focus {
+	outline: 0;
+}
+
+/* remember to highlight inserts somehow! */
+ins {
+	text-decoration: none;
+}
+del {
+	text-decoration: line-through;
+}
+
+/* tables still need 'cellspacing="0"' in the markup */
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+form{
+ padding:0;
+ margin:0;
+}
+
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}
+
+.clear {
+	clear: both;
+}
+
+.clearfix:after {
+	clear: both;
+	content: ".";
+	display: block;
+	height: 0;
+	visibility: hidden;
+}
+
+.no_border {
+	border: 0 !important;
+}
+
+.no_bottom {
+	margin-bottom: 0 !important;
+}
+
+.no_left {
+	margin-left: 0 !important;
+}
+
+.no_right {
+	margin-right: 0 !important;
+}
+
+.no_top {
+	margin-top: 0 !important;
+}
+
+.reset {
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+.reset_all {
+  border: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.reset_margin {
+	margin: 0 !important;
+}
+
+.reset_padding {
+	padding: 0 !important;
+}
+
+.align_center {
+	text-align: center !important;
+}
+
+.align_justify {
+	text-align: justify !important;
+}
+
+.align_left {
+	text-align: left !important;
+}
+
+.align_right {
+	text-align: right !important;
+}
+
+.block {
+	display: block !important;
+}
+
+.hide {
+	display: none !important;
+}
+
+.inline {
+	display: inline !important;
+}
+/* ------------------------------------------- */

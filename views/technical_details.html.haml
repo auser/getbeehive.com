@@ -1,0 +1,138 @@
+%h2 Technology
+
+%p
+  So how exactly does this work? Beehive is comprised of several systems. There are several layers to the application.
+  ~code_to_syntax "  Router\n|-----------|\n  Nodes\n|-----------|\n  Storage", "shell-unix-generic"
+
+%p
+  Each of these layers has their own distinct roles from within beehive. 
+
+%h4 Roles
+%ul.dots
+  %li 
+    %a{:href => "#router"}
+      Router -
+    responsible for bee registration, client request routing and application/bee notifications
+  %li
+    %a{:href => "#node"}
+      Node - 
+    the hosts where the applications are mounted and hosted
+  %li 
+    %a{:href => "#router"}
+      Storage - 
+    responsible for keeping track of the storage locations for the applications, git-repos, squashed bees, etc.
+
+#router
+  %h3 Router
+
+%p
+  The routing layer is responsible for client request routing as well as ensuring that applications are reachable, taking appropriate action if they are not.
+  
+%p
+  When the routing layer is booted, it connects to a local (and, if given one, a seed's) database. Then it starts the RESTful interface to the backend. If this is successful, it starts the client acceptor process. 
+  = doc_image("client_acceptor.png", "Client acceptor process")
+
+%p
+  The acceptor process is a basic tcp listener (implemented using <a href="http://www.erlang.org/doc/man/gen_tcp.html">gen_tcp</a>) that spawns an acceptor process for every request. Additionally, every request has a supervisor that watches the request. If there is an abnormality with the acceptor process, the supervisor will relaunch the accepted process, while the client never sees the problem.
+  
+%p
+  When the process has been accepted, the <a href="http://github.com/auser/beehive/blob/master/lib/erlang/src/routing/proxy_handler.erl">proxy_handler</a> takes over control of the socket. It hands off the request to the Beehive protocol handler.
+
+%p
+  The protocol Beehive deals with is abstracted from the decoding of the process so that the proxy can handle any client request that is written for Beehive. Protocol request decoders must export one method called handle_request/1 and must pass back {ok, RoutingKey, ForwardReq, Req}. A plain protocol request decoder template looks like:
+  ~file_to_code "docs/protocol_handler.erl", "erlang"
+
+%p
+  The <a href="http://github.com/auser/beehive/blob/master/lib/erlang/src/request_decoders/http_request_decoder.erl">http request decoder</a> is built-in, so we'll continue talking about that. The http request headers are gathered and parsed by the decoder. The routing key is chosen by the header 'Host,' by default, but this can be overridden in the config (by setting the routing_parameter switch the <a href="http://github.com/auser/beehive/blob/master/lib/erlang/scripts/start_beehive.sh">./start_beehive.sh</a>) script.
+  
+%p
+  Once the routing_parameter has been picked off of the request, the proxy_handler attempts to find an available bee for the process to connect. If none is specified, then it chooses the 'base,' which connects to the local RESTful process (defaulting at port 4999) on the router. If there is a subdomain attached, then it first looks to see if an application is registered with the same name. If there is one, then it looks up it's bee_picker
+  = define_term("bee_picker") do
+    The bee_picker is the module that picks the bee from the rest. This defaults to the baked-in bee_strategies module, but this can be overridden. More on this later.
+  And then goes on to pick out the bee_strategy for the app.
+  = define_term("bee_strategy") do
+    The method that the bee_picker uses to pull off the bee. This can be overridden, but defaults to pick a random bee. There are built in ones that can be seen <a href="http://github.com/auser/beehive/blob/master/lib/erlang/src/mesh/router/bee_strategies.erl">here</a>.
+
+%p
+  Once the parameters are chosen, a bee is chosen. Only available bees are sent into the bee_picker, so if there are no available bees, then an empty array will be sent in. 
+  
+%p
+  The bee strategy is then used to pick the bee. If there are no bees available, the request is placed into the waiting_queue, which is popped every time a bee becomes available. That is, the request gets placed in the queue that has the following structure
+  ~code_to_syntax "{RequestKey, {{RequestKey, BeePicker, BeeStrategy}, From, FromPid, Timestamp}"
+
+%p
+  = doc_image("proxy_socket_handler.png")
+  Once the proxy_handler connects to a bee, it moves into the proxy_loop that handles data to and from both the client and the bee server. To support streaming, it also pops off a process to watch for data coming from the client socket. When data is received from either end of the socket, that data is passed back into the other process.
+
+  = callout "Developer note" do
+    This may be an area to look at, when to terminate the socket.
+%p
+  If either end closes their side of the socket, it prompts termination of the socket.
+
+%p
+  Note: There are two (erlang) processes spawned from this process and are active in their own space. This is how streaming on the proxy is enabled.
+
+%p.clear
+  Finally, when the proxy_handler is terminated, it sends the event:
+  ~code_to_syntax "?NOTIFY({bee, closing_stats, Bee, StatsProplist})", "erlang"
+%p
+  These contain the bee that was connected as well as the stats of the server socket for storage. 
+
+#node
+  %h3 Node
+
+%p
+  The node layer is responsible for housing the actual endpoints. When a new bee gets deployed, from the app_manager (only happens when the bee is registered as an application, using the router layer without an application is the only time this would not happen) it looks for a new node that is capable of deploying a new app. This is achieved by asking the node_manager:
+  ~code_to_syntax "node_manager:get_next_available_host/0", "erlang"
+
+%p
+  If there is a new available host and the application is not registered as a static application (i.e. it can move around in the node-grid), then the app_handler launches a new process to launch the app on the node. The new process started, the <a href="http://github.com/auser/beehive/blob/master/lib/erlang/src/mesh/router/app_launcher_fsm.erl">app_launcher_fsm</a> sits with the command-process to start it. 
+  
+%p
+  If the process dies abnormally, then the bee has crashed for some reason and it is not marked as up. There are three phases to the app_launcher_fsm: launch, launching and pending. The launch phase gets called immediately and the app_handler is called on the node to start the bee. It then moves to the launching phase. If the bee is started by the app_handler on the node, then it sends back the message:
+  ~code_to_syntax "{started_bee, Bee}", "erlang"
+
+%p
+  If this message is received, then the process moves to the pending phase where it spawns a new erlang process to ping the bee. This will send a gen_tcp connect message to the bee. If the bee can be reached, it is marked as 'ready' and the app_launcher_fsm dies normally. If it cannot be reached immediately, it will retry several times. If it cannot be reached after the retries, it marks the bee as down and will not send any new connections to the bee.
+  
+%p
+  = callout do
+    Bees are stored in the storage layer as <a href="http://squashfs.sourceforge.net/">squashfs</a> files to save space and pack all the dependencies of the application into a single file.
+
+%p
+  Beehive currently requires that the applications launched be given a url that denotes where the git repository that contains the application code is. When this repos is updated, a git post-received hook can trigger the <a href="http://github.com/auser/beehive/blob/master/lib/erlang/src/mesh/router/app_updater_fsm.erl">app_updater_fsm</a> to pull the new code. More on the app_updater_fsm process in the storage layer, however when this happens, the app_updater_fsm will dictate that the node mount the new bee.
+
+%p
+  To mount the bee, the node needs the location of the squashfs file. It uses the library (written for Beehive) called <a href="http://github.com/auser/beehive/blob/master/lib/erlang/src/utils/slugger.erl">slugger</a> to transfer the files around on the grid. After the squashed bee is transferred to the node, it will call the shell code named <a href="http://github.com/auser/beehive/blob/master/lib/shell/mount-bee.sh">"mount-bee"</a> which will bind-mount the bee on the system. It will also create a user on the system named after the bee's app_name, if there is not one. This provides chrooted shell access to the read-only bee.
+  
+#storage
+  %h3 Storage
+
+%p
+  = callout do
+    Beehive *may* get a primary git server, but currently relies on others, such as <a href="http://github.com">http://github.com</a>
+
+%p
+  The storage layer is where the bee's code is queried. When the app_manager needs to deploy a new application, it calls the bh_storage_srv to update the bee. 
+
+%p
+  When the app_updater_fsm moves into the 'squashing' state, it will call the <a href="http://github.com/auser/beehive/blob/master/lib/shell/create-bee.sh">"create-bee"</a> shell script. This script builds a mountable bee, pulling the git repository into the bee//home/app directory, as well. It also will install the gems defined in the .gems file, line-by-line. It alls "gem install $line --no-ri --no-rdoc;"
+  
+%p
+  A sample .gems file would look like:
+  ~code_to_syntax "sinatra\ncompass", "shell-unix-generic"
+
+%p
+  It then creates the squashfs file and stores it in a hashed directory of the app name on the storage node. 
+  = callout "Developer note" do
+    Replication of the storage layer, the git repos is on the TODO list.
+
+%p
+  When a node in the grid needs the squashed bee, the bh_storage_srv supports the method locate_git_repo/1, which will locate the squashed bee on the storage node's filesystem.
+
+%p 
+  Beehive stores it's deployable applications into squashfs files, this way the application can move on the grid and not require any special deployment code.
+
+%p
+  More technical details about the system can be found on the
+  = link_to "readme", "http://github.com/auser/beehive/tree/master/lib/erlang/"

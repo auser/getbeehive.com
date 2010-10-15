@@ -1,0 +1,20 @@
+!!! Strict
+%html{ :xmlns => "http://www.w3.org/1999/xhtml", "xml:lang" => "en", :lang => "en" }
+  %head
+    = haml_partial "partials/_header"
+  %body{ :class => page_classes }
+    #wrapper
+      #header
+        %h1
+          = link_to "GetBeehive", "/"
+        = haml_partial "partials/_nav"
+      #frame
+        = yield
+
+    #footer
+      %ul.first
+        %li &copy; Ari Lerner, 2010
+        %li= link_to "Home", "/"
+        %li= link_to "Source", "http://github.com/auser/beehive"
+      %ul.second
+        %li.reset_all= link_to "Twitter", "http://www.twitter.com/auser"

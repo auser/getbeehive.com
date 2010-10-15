@@ -1,0 +1,118 @@
+- content_for :sidebar do
+  %h3 More links
+  %ul
+    %li= link_to "Technical details", "/technical_details.html"
+    %li= link_to "Ec2 tutorials", "http://www.google.com/search?client=safari&rls=en&q=ec2+tutorial&ie=UTF-8&oe=UTF-8"
+
+%h2 Documentation
+
+%p
+  This section describes the usage of beehive, for a technical description, head over to the
+  = link_to "tech"
+  section
+
+%h3 Quickstart
+
+%p
+  Let's get ourselves started.
+  ~file_to_code "docs/quickstart.rb", "shell-unix-generic"
+
+%p
+  First, we have to start the cloud that will hold the instances (in ec2). Beehive makes this easy by including a <a href="http://poolpartyrb.com">PoolParty</a> script to define the cloud infrastructure. This makes it easy to start the cloud with a single command.
+
+%p
+  Now, we'll give the cloud a few minutes to boot up and provision itself. As soon as the instances are up, you can log into the instances with the following command, if you'd like to see the process:
+  ~code_to_syntax "cloud ssh -c config/clouds.rb"
+%P
+  From there, I usually tail the syslog to see what the user-data is up to. 
+  ~code_to_syntax "tail -f /var/log/syslog"
+
+%p
+  Beehive currently requires you to use a CNAME to address the base route. This is because the routing key is based off the subdomain of the requested URL. Add the following line to your /etc/hosts file (or add a CNAME to your DNS provider):
+  ~code_to_syntax "[your ip]  my_beehive.com"
+
+%h3 What is that doing? 
+
+%p
+  = callout do
+    We plan on wrapping the twitter syntax into a nicer, more syntactic method
+%p
+  Well, first it will start a router node, install the appropriate software and start the router. Then it will start the bees which, for quick-starting will start bees and storage nodes on each of the instances. Finally, each of these starts their own. Note, in this clouds.rb, we are using twitter as a sort of global store to get the router 'seed' node. You can check out how we did that here: <a href="http://twitter.com/getbeehive/">http://twitter.com/getbeehive</a>. To run this for yourself, you probably want to change the twitter username that you use, see bees.sh and router.sh to see how to do that. 
+    
+%p
+  Once the instances are all up, you should be able to curl your instance. Let's check out the router:
+  ~curl_to_syntax "curl -i -XGET http://my_beehive.com:8080/", "get_root"
+
+%p
+  Cool, that's the basic response that we get when we GET to the root url. Let's look at something more interesting:
+
+%h2 Apps
+
+%p
+  Beehive works by scaling applications registered with the <a href="http://github.com/auser/beehive/tree/master/lib/erlang/src/mesh/router/app_manager.erl">app_manager</a>. First, let's look at the apps on the system:
+  ~curl_to_syntax "curl -i -XGET http://my_beehive.com:8080/apps.json", "get_demo_apps"
+
+%p
+  One more time to confirm the deletion, we'll check it:
+  ~curl_to_syntax "curl -i -XGET http://my_beehive.com:8080/apps.json", "delete_app_result"
+
+%h3 Users
+%p
+  Beehive ships with a basic user authentication interface. Certain endpoints require authenticated users to complete. For this, Beehive provides each user with a token.
+  = callout "Developer note" do
+    The basic authentication process may move to oath in the future.
+
+%p
+  To run an authenticated action, let's first check out the users that ship with Beehive. Again, we can do this with a curl:
+  .clear
+  ~curl_to_syntax "curl -i my_beehive.com:8080/users.json", "get_basic_users"
+
+%p
+  Beehive ships with a single root user of the email "root@getbeehive.com" and a password of "test". To actually interact, let's get that user a token:
+  ~curl_to_syntax "curl -i -XPOST -d\"{\"email\":\"root@getbeehive.com\", \"password\": \"test\"}\" http://my_beehive.com:8080/auth.json", "get_token_for_root_user"
+  
+%p
+  The auth controller gives us back a generated token in the response. Now, we'll use that token in the future to interact with the beehive. So let's try it out. Let's add a new user at the administrator level (level 1).
+  ~curl_to_syntax "curl -i -XPOST -d\"{\"email\":\"arilerner@mac.com\", \"password\":\"test\", \"level\":\"1\", \"token\":\"4de2c4cb3e8716c829072c4a19d53c05\"}\" http://my_beehive.com:8080/users.json", "add_a_user"
+
+%p
+  Sweet, it looks like it worked. Let's make sure by checking our users now
+  ~curl_to_syntax "curl -i my_beehive.com:8080/users.json", "get_added_users"
+
+%p
+  Nice! Now let's clean up our old user:
+  ~curl_to_syntax "curl -i -XDELETE -d\"{\"email\":\"root@getbeehive.com\", \"token\":\"4de2c4cb3e8716c829072c4a19d53c05\"}\" http://my_beehive.com:8080/users.json", "cleanup_root_user"
+
+%p
+  Great. Now anytime we want to interact with a command that requires a user, we'll just use the user's token.
+
+%p
+  Awesome, let's add an application now.
+
+%h2 Bees
+
+%p
+  = callout do
+    Note, this is advanced usage. Normally, you should never have to worry about adding a bee, Beehive will do this automatically. 
+      
+  What is a bee? A bee stands for a <span class="hl">B</span>ack<span class="hl">e</span>nd <span class="hl">e</span>ndpoint, which is the service endpoint. Think about this like apache or a thin process.
+
+%p
+  Cool. Let's add a bee manually so we can see how the proxy works. This, by the way is done automatically by beehive with new applications (we'll see this later), but we'll fake it for now, so we can check out the inner workings
+  ~curl_to_syntax "curl -i -XPOST -d\"{\"app_name\":\"webapp\", \"host\":\"ec2-75-101-199-175.compute-1.amazonaws.com\", \"port\":\"8080\"}\" my_beehive.com:8080/bees.json", "post_a_new_bee"
+
+%p
+  Nice, let's go look at the bees again with the above curl command:
+%p
+  Cool, that's the basic response that we get when we GET to the root url. Let's look at something more interesting:
+  ~curl_to_syntax "curl -i -XGET http://my_beehive.com:8080/bees.json", "get_with_one_bee"
+
+%p
+  What if we wanted to delete a bee? That's pretty easy too. Simply post to the /bees endpoint with the DELETE header as: Name/Host/Port
+  ~curl_to_syntax "curl -i -XDELETE -d\"{}\" remote_beehive.com:8080/bees/webapp/ec2-75-101-199-175.compute-1.amazonaws.com/8080.json", "delete_a_bee"
+
+
+%h3 More
+
+%p
+  The documentation for beehive is available in depth throughout the source.

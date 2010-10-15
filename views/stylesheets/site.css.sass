@@ -1,0 +1,220 @@
+@import compass.sass
+@import blueprint.sass
+@import "compass/reset"
+@import "compass/layout"
+@import "blueprint/liquid"
+
+!font_color         = #2a2a2a
+!link_color         = #0388a6
+!link_hover_color   = #009ce0
+!link_focus_color   = !link_color
+!link_active_color  = !link_color
+!link_visited_color = !link_color
+
+!blueprint_font_family  = "'Century Gothic', 'Apple Gothic', 'Helvetica Neue', arial, sans-serif"
+!blueprint_font_size    = 13px
+
+!blueprint_grid_columns = 12
+!blueprint_grid_width   = 60px
+!blueprint_grid_margin  = 20px
+
++global-reset
++blueprint-typography
+
+// Includes
+@include sticky-footer(72px, "#layout", "#layout_footer", "#footer")
+
+
+a
+  +link-colors(!link_color, !link_hover_color, !link_focus_color, !link_active_color, !link_visited_color)
+
+body
+  background: #fff
+  color: #2c2c2c
+  font-family: "Helvetica Neue", Helvetica, Arial, Geneva, sans-serif
+  font-size: 12px
+  height: 20px
+
+
+h2 
+  font-family: 'Reenie Beanie', "Helvetica Neue", Helvetica, Arial, Geneva, sans-serif
+  font-size: 50px
+  margin: 0 0 30px 0
+
+
+h3 
+  font-family: "Helvetica Neue", Helvetica, Arial, Geneva, sans-serif
+  font-size: 16px
+  margin: 0 0 10px 0
+
+h4 
+  font-weight: bold
+
+pre,code
+  font: 12px Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace
+  border: 2px solid #ccc
+  background: #eee
+  padding: 10px
+  overflow: hidden
+  clear: both
+
+a:link, a:visited 
+  color: #ff1100
+  text-decoration: none
+  -webkit-transition: color .2s linear
+
+a:hover, a:active 
+  color: #ff1100
+
+#wrapper
+  padding: 50px
+  padding-top: 20px
+  text-align: center
+  +container
+#frame
+  position: relative
+  line-height: 25px
+  text-align: justify
+  margin: 0 0 50px 0
+  #sidebar
+    +float-right
+    width: 320px
+    h3
+      font-family: "Helvetica Neue", Helvetica, Arial, Geneva, sans-serif
+      font-size: 20px
+      margin: 0 0 10px 0
+      border-bottom: 1px solid #eee
+    ul
+      padding: 0
+      +pretty-bullets("/images/icons/small_hive.png", 20px, 20px)
+      li
+        font-family: "Helvetica Neue", Helvetica, Arial, Geneva, sans-serif
+        font-size: 16px
+        padding: 0 10px 0 23px
+        margin: 10px 0 0 0
+  #content
+    +float-left
+    width: 600px
+  #billboard 
+    clear: both
+    img 
+      display: block
+      margin: 0 auto
+  .banner
+    clear: both
+    .description
+      +float-left
+      clear: both
+      margin: 20px 0 50px 0
+      padding: 50px
+    .callout
+      +float-right
+      line-height: 24px
+      margin: 0 0 24px 0
+      text-align: justify
+    p
+      line-height: 22px
+      margin: 0 0 24px 0
+      text-align: justify
+  .description
+    width: 390px
+  .divider
+    border-bottom: 1px solid #eeeeee
+    clear: both
+    width: 100%
+    margin: 0 0 30px 0
+  
+  #app_templates
+    .callout
+      margin-left: 150px
+  #open_source,#app_templates
+    .description
+      +float-right
+    .callout
+      +float-left
+
+.callout-box
+  float: right
+  width: 200px
+  background-color: #F2FBFF
+  border: 4px solid #72b9eb
+  padding: 5px 5px
+  margin: 8px
+  .callout-title
+    :position relative
+    :top -15px
+    :left -10px
+    :font-size 1.1em
+    :width 80%
+    :background #fff
+  .callout_image
+    :position relative
+    :top -25px
+    :left 10px
+    :width 50px
+  .callout-content
+    :background #F2FBFF
+  .callout-wrapper
+    height: 1px
+    position: relative
+    top: -25px
+    left: 10px
+    float: right
+
+#header
+  clear: both
+  margin: 0px 0px 0px 0px
+  overflow: hidden
+  h1
+    +float-left
+    height: 70px
+    width: 270px
+  h1 a 
+    background: url("../images/site/logo.png") no-repeat
+    display: block
+    height: 70px
+    text-indent: -99999em
+    width: 270px
+  #header_nav
+    +float-right
+    ul
+      +horizontal-list
+      li
+        display: inline-block
+        color: #ff1100
+        font-family: "Helvetica Neue", Helvetica, Arial, "MS Trebuchet", sans-serif
+        font-size: 14px
+        font-weight: bold
+        line-height: 30px
+        margin: 25px 0 30px 0 
+        a 
+          padding: 9px 24px
+          margin: 3px 2px 0 0
+        li.disabled 
+          color: #e5e5e5
+        a:link, a:visited 
+          color: #2c2c2c
+        a:hover, a:active 
+          color: #fff
+          background: #ff6600
+
+#footer
+  background: #513c0f url("/images/site/footer.png") repeat-x
+  height: 50px
+  padding: 105px 0 0 0
+  color: #fff
+  ul li 
+    display: inline-block
+    margin: 0 10px 0 0
+    padding: 0 10px 0 0
+    .disabled 
+      color: #e5e5e5
+    a:link, a:visited 
+      color: #fff
+      font-weight: bold
+    a:hover, a:active 
+      color: #bbe
+  .first
+    +float-left
+  .second
+    +float-right

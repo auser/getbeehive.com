@@ -1,0 +1,113 @@
+body {
+  background: #fff;
+  color: #2c2c2c;
+  font-family: "Helvetica Neue", Helvetica, Arial, Geneva, sans-serif;
+  font-size: 12px;
+  height: 20px;
+}
+
+h2 {
+  font-family: 'Reenie Beanie', "Helvetica Neue", Helvetica, Arial, Geneva, sans-serif;
+  font-size: 50px;
+  margin: 0 0 30px 0;
+}
+
+h3 {
+  font-family: "Helvetica Neue", Helvetica, Arial, Geneva, sans-serif;
+  font-size: 16px;
+  margin: 0 0 10px 0;
+}
+
+h4 {
+  font-weight: bold;
+}
+
+a:link, a:visited {
+  color: #ff1100;
+  text-decoration: none;
+  -webkit-transition: color .2s linear;
+}
+
+a:hover, a:active {
+  color: #ff1100;
+}
+
+#wrapper {
+  margin: 40px auto;
+  width: 820px;
+}
+
+#header {
+  margin: 0 0 20px;
+  display: block;
+}
+
+#header h1 a {
+  background: url("/images/site/logo.png") no-repeat;
+  display: block;
+  height: 70px;
+  text-indent: -99999em;
+  width: 270px;
+}
+
+#header nav ul li {
+  color: #ff1100;
+  display: inline-block;
+  font-family: "Helvetica Neue", Helvetica, Arial, "MS Trebuchet", sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 30px;
+  margin: 25px 0 30px 0; 
+}
+
+#header nav ul li a {
+  padding: 9px 24px;
+  margin: 3px 2px 0 0;
+}
+
+#header nav ul li.disabled {
+  color: #e5e5e5;
+}
+
+#header nav ul li a:link, #header nav ul li a:visited {
+  color: #2c2c2c;
+}
+
+#header nav ul li a:hover, #header nav ul li a:active {
+  color: #fff;
+  background: #ff6600;
+}
+
+.container {
+  font-size: 13px;
+  margin: 0 0 50px 0;
+}
+
+.container .left {
+  width: 240px;
+}
+
+footer {
+  border-top: 1px solid #e5e5e5;
+  padding: 10px 0 0 0;
+}
+
+footer ul li {
+  border-right: 1px solid #e5e5e5;
+  display: inline-block;
+  margin: 0 10px 0 0;
+  padding: 0 10px 0 0;
+}
+
+footer ul li.disabled {
+  color: #e5e5e5;
+}
+
+footer ul li a:link, footer ul li a:visited {
+  color: #2c2c2c;
+  font-weight: bold;
+}
+
+footer ul li a:hover, footer ul li a:active {
+  color: #8b8b8b;
+}
